@@ -47,4 +47,4 @@ for i in "${!emails[@]}"; do
 done
 EOFSCRIPT
 
-chmod +x /tmp/create_users.sh && /tmp/create_users.sh'
+chmod +x /tmp/create_users.sh && EMAIL_ADDRESS="$EMAIL_ADDRESS" /tmp/create_users.sh'
