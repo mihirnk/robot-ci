@@ -1,10 +1,11 @@
 # Extract usernames from EMAIL_ADDRESS and create users
 
-RUN tee /tmp/create_users.sh << EOF
+RUN tee /tmp/create_users.sh << 'EOF'
 #!/bin/bash
 set -e
 
 EMAIL_ADDRESS="${EMAIL_ADDRESS:-}"
+i=0
 
 if [ -z "${EMAIL_ADDRESS}" ]; then
     echo "Warning: EMAIL_ADDRESS is not set. No users will be created."
@@ -45,7 +46,6 @@ for i in "${!emails[@]}"; do
         fi
     fi
 done
-
 EOF
 
-chmod +x /tmp/create_users.sh && /tmp/create_users.sh'
+chmod +x /tmp/create_users.sh && /tmp/create_users.sh
