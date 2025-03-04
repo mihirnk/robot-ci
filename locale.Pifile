@@ -1,5 +1,5 @@
 # Configure timezone and keyboard layout based on device type
-RUN bash -c 'cat > /tmp/configure_locale.sh << "EOFSCRIPT"
+RUN tee /tmp/configure_locale.sh << EOF
 #!/bin/bash
 set -e
 
@@ -48,6 +48,6 @@ else
     configure_manually
   fi
 fi
-EOFSCRIPT
+EOF
 
 chmod +x /tmp/configure_locale.sh && /tmp/configure_locale.sh'
