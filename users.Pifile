@@ -1,50 +1,50 @@
 # Extract usernames from EMAIL_ADDRESS and create users
 
-RUN tee /tmp/create_users.sh << EOF
+RUN bash -c 'cat > /tmp/create_users.sh << "EOFSCRIPT"
 #!/bin/bash
 set -e
 
-EMAIL_ADDRESS="\${EMAIL_ADDRESS:-}"
+EMAIL_ADDRESS="${EMAIL_ADDRESS:-}"
 
-if [ -z "\${EMAIL_ADDRESS}" ]; then
+if [ -z "${EMAIL_ADDRESS}" ]; then
     echo "Warning: EMAIL_ADDRESS is not set. No users will be created."
     exit 0
 fi
 
-IFS="," read -ra emails <<< "\${EMAIL_ADDRESS}"
-for i in "\${!emails[@]}"; do
-    if [ -z "\${emails[\$i]}" ]; then
+IFS="," read -ra emails <<< "${EMAIL_ADDRESS}"
+for i in "${!emails[@]}"; do
+    if [ -z "${emails[$i]}" ]; then
         continue
     fi
     
-    username=\$(echo "\${emails[\$i]}" | cut -d@ -f1)
-    if [ -z "\$username" ]; then
-        echo "Warning: Could not extract username from \${emails[\$i]}"
+    username=$(echo "${emails[$i]}" | cut -d@ -f1)
+    if [ -z "$username" ]; then
+        echo "Warning: Could not extract username from ${emails[$i]}"
         continue
     fi
     
     # Create user if it does not exist
-    id -u "\${username}" &>/dev/null || useradd -m -s /bin/bash "\${username}"
+    id -u "${username}" &>/dev/null || useradd -m -s /bin/bash "${username}"
     
     # First email is admin (sudoer), others are regular users
-    if [ \$i -eq 0 ]; then
-        groups "\${username}" | grep -q sudo || usermod -aG sudo "\${username}"
+    if [ $i -eq 0 ]; then
+        groups "${username}" | grep -q sudo || usermod -aG sudo "${username}"
         # Set admin password
-        echo "\${username}:\${ADMINPASSWORD:-changeme}" | chpasswd
+        echo "${username}:${ADMINPASSWORD:-changeme}" | chpasswd
     else
         # Set regular user password
-        echo "\${username}:\${USERPASSWORD:-changeme}" | chpasswd
+        echo "${username}:${USERPASSWORD:-changeme}" | chpasswd
     fi
     
     # Add user to AllowUsers in sshd_config for SSH access
-    if ! grep -q "^AllowUsers.*\${username}" /etc/ssh/sshd_config; then
+    if ! grep -q "^AllowUsers.*${username}" /etc/ssh/sshd_config; then
         if grep -q "^AllowUsers" /etc/ssh/sshd_config; then
-            sed -i "s/^AllowUsers.*/& \${username}/" /etc/ssh/sshd_config
+            sed -i "s/^AllowUsers.*/& ${username}/" /etc/ssh/sshd_config
         else
-            echo "AllowUsers \${username}" >> /etc/ssh/sshd_config
+            echo "AllowUsers ${username}" >> /etc/ssh/sshd_config
         fi
     fi
 done
-EOF
+EOFSCRIPT
 
 RUN bash -c 'chmod +x /tmp/create_users.sh && /tmp/create_users.sh'
