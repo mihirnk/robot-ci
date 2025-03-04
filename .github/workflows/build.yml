@@ -118,7 +118,6 @@ jobs:
                   ENTNETWORK_PRIORITY="${{ secrets.ENTNETWORK_PRIORITY }}"
                   ENTNETWORK_IDENTITY="${{ secrets.ENTNETWORK_IDENTITY }}"
                   ENTNETWORK_PASSWORD="${{ secrets.ENTNETWORK_PASSWORD }}"
-                  WIFI_CC="${{ secrets.WIFI_CC }}"
                   TIMEZONE="${{ secrets.TIMEZONE }}"
                   KEYBOARD_LAYOUT="${{ secrets.KEYBOARD_LAYOUT }}"
                   KEYBOARD_MODEL="${{ secrets.KEYBOARD_MODEL }}"

@@ -55,6 +55,14 @@ This tool solves common challenges in robotics development:
 | `SMTP_USERNAME` | Username for the email account that will send notifications |
 | `SMTP_PASSWORD` | Password for the email account that will send notifications |
 
+Optional secrets:
+
+| Secret | Purpose |
+|--------|---------|
+| `TIMEZONE` | Timezone for the device, defaults to America/New_York if not set |
+| `KEYBOARD_LAYOUT` | Keyboard layout, defaults to us if not set |
+| `KEYBOARD_MODEL` | Keyboard model, defaults to pc105 if not set |
+
 ### 2. Build Your Image
 1. Go to Actions tab → **Build**
 2. Click **Run Workflow** and select your build options:
@@ -81,6 +89,13 @@ Here's a brief overview of its functionality:
 - **IP Notification**: Sends an email notification with the device's IP address upon successful connection.
 
 Read more about Robonet [here](https://github.com/neurobionics/robonet).
+
+## Additional Configuration
+
+1. Edit the `motd` file to customize the message of the day. This is displayed when the user logs in.
+2. Edit the `packages.Pifile` file to install additional packages, services, and boot sequences.
+3. Edit the `ssh.Pifile` file to configure SSH access for users.
+4. Edit the `source.Pifile` file to build from a custom source that is not a default raspbian or ubuntu image.
 
 ## 🤝 Contributing
 
