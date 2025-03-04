@@ -1,6 +1,6 @@
 # Extract usernames from EMAIL_ADDRESS and create users
 
-RUN tee /tmp/create_users.sh << 'EOF'
+RUN tee /tmp/create_users.sh << EOF
 #!/bin/bash
 set -e
 
@@ -48,4 +48,4 @@ for i in "${!emails[@]}"; do
 done
 EOF
 
-chmod +x /tmp/create_users.sh && /tmp/create_users.sh
+RUN bash -c 'chmod +x /tmp/create_users.sh && /tmp/create_users.sh'

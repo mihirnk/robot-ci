@@ -50,4 +50,4 @@ else
 fi
 EOF
 
-chmod +x /tmp/configure_locale.sh && /tmp/configure_locale.sh'
+RUN bash -c 'chmod +x /tmp/configure_locale.sh && /tmp/configure_locale.sh'
