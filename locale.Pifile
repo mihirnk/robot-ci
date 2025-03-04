@@ -4,8 +4,8 @@ RUN bash -c 'cat > /tmp/configure_locale.sh << "EOFSCRIPT"
 set -e
 
 TIMEZONE="${TIMEZONE:-America/New_York}"
-KEYBOARD_LAYOUT="us"
-KEYBOARD_MODEL="pc105"
+KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-us}"
+KEYBOARD_MODEL="${KEYBOARD_MODEL:-pc105}"
 
 echo "Configuring system with timezone: $TIMEZONE and keyboard: $KEYBOARD_LAYOUT"
 

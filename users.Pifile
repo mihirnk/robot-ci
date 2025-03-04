@@ -1,0 +1,25 @@
+# Extract usernames from EMAIL_ADDRESS and create users
+RUN bash -c 'IFS="," read -ra emails <<< "${EMAIL_ADDRESS}"; \
+    for i in "${!emails[@]}"; do \
+        username=$(echo "${emails[$i]}" | cut -d@ -f1); \
+        # Create user if it doesn't exist \
+        id -u "$username" &>/dev/null || useradd -m -s /bin/bash "$username"; \
+        # First email is admin (sudoer), others are regular users \
+        if [ $i -eq 0 ]; then \
+            groups "$username" | grep -q sudo || usermod -aG sudo "$username"; \
+            # Set admin password \
+            echo "$username:${ADMINPASSWORD}" | chpasswd; \
+        else \
+            # Set regular user password \
+            echo "$username:${USERPASSWORD}" | chpasswd; \
+        fi; \
+        
+        # Add user to AllowUsers in sshd_config for SSH access \
+        if ! grep -q "^AllowUsers.*$username" /etc/ssh/sshd_config; then \
+            if grep -q "^AllowUsers" /etc/ssh/sshd_config; then \
+                sed -i "s/^AllowUsers.*/& $username/" /etc/ssh/sshd_config; \
+            else \
+                echo "AllowUsers $username" >> /etc/ssh/sshd_config; \
+            fi; \
+        fi; \
+    done'

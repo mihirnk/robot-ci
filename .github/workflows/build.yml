@@ -25,67 +25,14 @@ on:
                 description: "Hostname"
                 default: raspberrypi
                 required: true
-            user:
-                description: "Username"
-                required: true
-                default: pi
-            password:
-                description: "Password"
+            admin_password:
+                description: "Admin Password"
                 required: true
                 default: raspberrypi
-            wifi_cc:
-                description: "WiFi Country Code"
+            user_password:
+                description: "Default User Password"
                 required: true
-                default: "US"
-                type: choice
-                options:
-                    - US
-                    - GB
-                    - DE
-                    - FR
-                    - IT
-                    - ES
-                    - CA
-                    - AU
-                    - JP
-                    - CN
-                    - KR
-                    - TW
-                    - SG
-                    - IN
-                    - BR
-                    - RU
-                    - ZA
-                    - SA
-                    - AE
-                    - EG
-                    - IL
-                    - TR
-                    - ID
-                    - TH
-                    - VN
-                    - PH
-                    - MY
-                    - MX
-                    - AR
-                    - CL
-                    - CO
-                    - PE
-                    - UY
-                    - EC
-                    - BO
-                    - PY
-                    - CR
-                    - PA
-                    - GT
-                    - HN
-                    - SV
-                    - NI
-                    - DO
-                    - JM
-                    - HT
-                    - CU
-                    - VE
+                default: raspberrypi
             wifi_ssid:
                 description: "Additional Network SSID"
                 required: false
@@ -109,7 +56,8 @@ jobs:
             - name: Check secrets and inputs
               run: |
                   # Assign inputs to variables
-                  PASSWORD="${{ github.event.inputs.password }}"
+                  ADMINPASSWORD="${{ github.event.inputs.admin_password }}"
+                  USERPASSWORD="${{ github.event.inputs.user_password }}"                  
                   WPA_PASSWORD="${{ github.event.inputs.wpa_password }}"
                   WIFI_SSID="${{ github.event.inputs.wifi_ssid }}"
                   WIFI_PASSWORD="${{ github.event.inputs.wifi_password }}"
@@ -141,8 +89,13 @@ jobs:
                   fi
                   
                   # Correctly validate password length
-                  if [[ ${#PASSWORD} -lt 8 ]]; then
-                      echo "Password must be at least 8 characters long. Exiting."
+                  if [[ ${#ADMINPASSWORD} -lt 8 ]]; then
+                      echo "Admin password must be at least 8 characters long. Exiting."
+                      exit 1
+                  fi
+
+                  if [[ ${#USERPASSWORD} -lt 8 ]]; then
+                      echo "User password must be at least 8 characters long. Exiting."
                       exit 1
                   fi
                   
@@ -159,13 +112,16 @@ jobs:
                   DEVICE="${{ github.event.inputs.device }}"
                   DISTRIBUTION="${{ github.event.inputs.distribution }}"
                   HOSTNAME="${{ github.event.inputs.host_name }}"
-                  USER="${{ github.event.inputs.user }}"
-                  USERPASSWORD="${{ github.event.inputs.password }}"
+                  ADMINPASSWORD="${{ github.event.inputs.admin_password }}"
+                  USERPASSWORD="${{ github.event.inputs.user_password }}"
                   ENTNETWORK_SSID="${{ secrets.ENTNETWORK_SSID }}"
                   ENTNETWORK_PRIORITY="${{ secrets.ENTNETWORK_PRIORITY }}"
                   ENTNETWORK_IDENTITY="${{ secrets.ENTNETWORK_IDENTITY }}"
                   ENTNETWORK_PASSWORD="${{ secrets.ENTNETWORK_PASSWORD }}"
-                  WIFI_CC="${{ github.event.inputs.wifi_cc }}"
+                  WIFI_CC="${{ secrets.WIFI_CC }}"
+                  TIMEZONE="${{ secrets.TIMEZONE }}"
+                  KEYBOARD_LAYOUT="${{ secrets.KEYBOARD_LAYOUT }}"
+                  KEYBOARD_MODEL="${{ secrets.KEYBOARD_MODEL }}"
                   HOMENETWORK_SSID="${{ github.event.inputs.wifi_ssid }}"
                   HOMENETWORK_PASSWORD="${{ github.event.inputs.wifi_password }}"
                   AP_SSID="${{ github.event.inputs.wpa_ssid }}"

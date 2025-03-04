@@ -6,14 +6,7 @@ source source.Pifile
 
 source ssh.Pifile
 
-# Add the user and make it sudoer only if it doesn't exist
-RUN bash -c "id -u ${USER} &>/dev/null || useradd -m -s /bin/bash ${USER}"
-RUN bash -c "groups ${USER} | grep -q sudo || usermod -aG sudo ${USER}"
-
-# TODO: if user isn't added to sudoers, make sure he is added to AllowUsers in sshd_config
-
-# Set/Update the password for the user
-RUN bash -c "echo ${USER}:${USERPASSWORD} | chpasswd"
+source users.Pifile
 
 # Set the hostname
 RUN bash -c "echo ${HOSTNAME} > /etc/hostname"
