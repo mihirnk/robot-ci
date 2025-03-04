@@ -1,25 +1,47 @@
 # Extract usernames from EMAIL_ADDRESS and create users
-RUN bash -c 'IFS="," read -ra emails <<< "${EMAIL_ADDRESS:-}"; \
-    for i in "${!emails[@]}"; do \
-        username=$(echo "${emails[$i]}" | cut -d@ -f1); \
-        # Create user if it doesn't exist \
-        id -u "${username}" &>/dev/null || useradd -m -s /bin/bash "${username}"; \
-        # First email is admin (sudoer), others are regular users \
-        if [ $i -eq 0 ]; then \
-            groups "${username}" | grep -q sudo || usermod -aG sudo "${username}"; \
-            # Set admin password \
-            echo "${username}:${ADMINPASSWORD:-changeme}" | chpasswd; \
-        else \
-            # Set regular user password \
-            echo "${username}:${USERPASSWORD:-changeme}" | chpasswd; \
-        fi; \
-        
-        # Add user to AllowUsers in sshd_config for SSH access \
-        if ! grep -q "^AllowUsers.*${username}" /etc/ssh/sshd_config; then \
-            if grep -q "^AllowUsers" /etc/ssh/sshd_config; then \
-                sed -i "s/^AllowUsers.*/& ${username}/" /etc/ssh/sshd_config; \
-            else \
-                echo "AllowUsers ${username}" >> /etc/ssh/sshd_config; \
-            fi; \
-        fi; \
-    done'
+RUN bash -c 'cat > /tmp/create_users.sh << "EOFSCRIPT"
+#!/bin/bash
+set -e
+
+if [ -z "${EMAIL_ADDRESS:-}" ]; then
+    echo "Warning: EMAIL_ADDRESS is not set. No users will be created."
+    exit 0
+fi
+
+IFS="," read -ra emails <<< "${EMAIL_ADDRESS}"
+for i in "${!emails[@]}"; do
+    if [ -z "${emails[$i]}" ]; then
+        continue
+    fi
+    
+    username=$(echo "${emails[$i]}" | cut -d@ -f1)
+    if [ -z "$username" ]; then
+        echo "Warning: Could not extract username from ${emails[$i]}"
+        continue
+    fi
+    
+    # Create user if it does not exist
+    id -u "${username}" &>/dev/null || useradd -m -s /bin/bash "${username}"
+    
+    # First email is admin (sudoer), others are regular users
+    if [ $i -eq 0 ]; then
+        groups "${username}" | grep -q sudo || usermod -aG sudo "${username}"
+        # Set admin password
+        echo "${username}:${ADMINPASSWORD:-changeme}" | chpasswd
+    else
+        # Set regular user password
+        echo "${username}:${USERPASSWORD:-changeme}" | chpasswd
+    fi
+    
+    # Add user to AllowUsers in sshd_config for SSH access
+    if ! grep -q "^AllowUsers.*${username}" /etc/ssh/sshd_config; then
+        if grep -q "^AllowUsers" /etc/ssh/sshd_config; then
+            sed -i "s/^AllowUsers.*/& ${username}/" /etc/ssh/sshd_config
+        else
+            echo "AllowUsers ${username}" >> /etc/ssh/sshd_config
+        fi
+    fi
+done
+EOFSCRIPT
+
+chmod +x /tmp/create_users.sh && /tmp/create_users.sh'
