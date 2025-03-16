@@ -5,7 +5,7 @@
 <p align="center">
   <a href="https://www.raspberrypi.com/products/"><img src="https://img.shields.io/badge/Tested%20on-Raspberry%20Pi%20-c51a4a" alt="Raspi"></a>
   <a href="https://www.raspberrypi.com/software/"><img src="https://img.shields.io/badge/supports-raspbian-red" alt="raspbian"></a>
-  <a href="https://www.raspberrypi.com/software/"><img src="https://img.shields.io/badge/kernel-32bit%20%7C%2064bit-blue" alt="kernel"></a>  
+  <a href="https://www.raspberrypi.com/software/"><img src="https://img.shields.io/badge/kernel-64bit-blue" alt="kernel"></a>  
   <a href="https://ubuntu.com/download/raspberry-pi"><img src="https://img.shields.io/badge/supports-ubuntu%20RT-orange" alt="ubuntu"></a>
   <a href="https://github.com/neurobionics/robot-ci/actions/workflows/build.yml"><img src="https://github.com/neurobionics/robot-ci/actions/workflows/build.yml/badge.svg" alt="build"></a>
 </p>
@@ -38,11 +38,28 @@ This tool solves common challenges in robotics development:
 > [!NOTE]
 > Currently tested on Raspberry Pi 4 and 5. May not be compatible with Raspberry Pi Zero.
 
-## 📝 Quick Start Guide
+## Getting Started
 
-### 1. Use This Template
-1. Click the "Use this template" button on the repository page to create a new repository based on this template.
-2. Set up these secrets in your new repository under Actions and as repository secrets:
+### 1. Repository Setup
+You have two options to use this repository:
+
+1. **Fork the Repository** (Recommended)
+   - Click the "Fork" button at the top of this repository
+   - Maintains connection to the original repository
+   - Useful if you want to receive future updates and contribute back
+
+2. **Use as a Template**
+   - Click the green "Use this template" button at the top of this repository
+   - This creates a new repository with a clean history
+   - Best for starting your own customized version
+
+Choose the option that best suits your needs:
+- Choose **Fork** if you want to stay updated with the original repository's changes
+- Choose **Template** if you want a clean slate for your own project
+
+### 2. Secrets Setup
+
+Set up these secrets in your new repository under Actions and as repository secrets:
 
 | Secret | Purpose |
 |--------|---------|
@@ -54,6 +71,7 @@ This tool solves common challenges in robotics development:
 | `SMTP_SERVER` | SMTP server for email notifications, for Gmail use `smtp.gmail.com` |
 | `SMTP_USERNAME` | Username for the email account that will send notifications |
 | `SMTP_PASSWORD` | Password for the email account that will send notifications |
+| `WIFI_COUNTRY_CODE` | WiFi country code, defaults to US if not set |
 
 Optional secrets:
 
@@ -63,17 +81,18 @@ Optional secrets:
 | `KEYBOARD_LAYOUT` | Keyboard layout, defaults to us if not set |
 | `KEYBOARD_MODEL` | Keyboard model, defaults to pc105 if not set |
 
-### 2. Build Your Image
-1. Go to Actions tab → **Build**
-2. Click **Run Workflow** and select your build options:
-   - Choose device model, OS distribution, and architecture
-   - Set hostname, username, and password
+### 3. Build Your Image
+1. Navigate to the **Actions** tab and select **Build**
+2. Click the **Run Workflow** button and select your build options:
+   - Choose between `raspbian` (default) or `ubuntu`
+   - Provide your `admin password` and `user password`. Users are created based on the `EMAIL_ADDRESS` secret, for example, if `EMAIL_ADDRESS` secret is set to "user1@example.com,user2@example.com", two users will be created: "user1" and "user2" and the first user will be considered the admin and all other users will be considered regular users.
    - Configure WiFi settings for additional home networks
 3. Once the build is complete, the OS image will be available as an artifact in the Actions tab.
 
-### 3. Deploy & Connect
+### 4. Deploy & Connect
 1. Download and flash the image to SD card using [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
-2. Boot your Pi
+2. Boot your Pi. 
+> **First Boot**: After powering on your Raspberry Pi for the first time, wait 5 minutes and then power off and on again. This is required for email and network services to be available. This is only required for the first boot.
 3. Connect via:
    - Enterprise or Home network: Check email for IP
    - Fallback AP mode: Connect to Pi's network (IP: 10.0.0.200)
