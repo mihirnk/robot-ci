@@ -7,21 +7,6 @@ set -e
 
 source /tmp/.env
 
-if [ -z "${TIMEZONE}" ]; then
-    echo "warning: TIMEZONE is not set, using default value"
-    TIMEZONE="America/New_York"
-fi
-
-if [ -z "${KEYBOARD_LAYOUT}" ]; then
-    echo "warning: KEYBOARD_LAYOUT is not set, using default value"
-    KEYBOARD_LAYOUT="us"
-fi
-
-if [ -z "${KEYBOARD_MODEL}" ]; then
-    echo "warning: KEYBOARD_MODEL is not set, using default value"
-    KEYBOARD_MODEL="pc105"
-fi
-
 echo "Configuring system with timezone: $TIMEZONE and keyboard: $KEYBOARD_LAYOUT"
 
 # Function to configure using Raspberry Pi Imager custom tool if available
