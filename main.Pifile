@@ -1,21 +1,6 @@
 source .env
 
-# assume defaults for env variables that are empty
-if [ -z "$WIFI_COUNTRY_CODE" ]; then
-  WIFI_COUNTRY_CODE="US"
-fi
-
-if [ -z "$TIMEZONE" ]; then
-  TIMEZONE="America/New_York"
-fi
-
-if [ -z "$KEYBOARD_LAYOUT" ]; then
-  KEYBOARD_LAYOUT="us"
-fi
-
-if [ -z "$KEYBOARD_MODEL" ]; then
-  KEYBOARD_MODEL="pc105"
-fi
+INSTALL .env /tmp/.env
 
 PUMP 800M
 

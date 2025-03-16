@@ -1,27 +1,31 @@
 # Extract usernames from EMAIL_ADDRESS and create users
 
-echo "EMAIL_ADDRESS: ${EMAIL_ADDRESS}"
-
-# First create a configuration file with the email addresses
-RUN bash -c "echo ${EMAIL_ADDRESS} > /tmp/email_addresses.conf"
-RUN bash -c "echo ${ADMINPASSWORD} > /tmp/admin_password.conf"
-RUN bash -c "echo ${USERPASSWORD} > /tmp/user_password.conf"
-
 # Then create and run the script that reads from the file
 RUN bash -c 'cat > /tmp/create_users.sh << "EOFSCRIPT"
 #!/bin/bash
 set -e
 
-EMAIL_LIST=$(cat /tmp/email_addresses.conf)
+source /tmp/.env
 
-if [ -z "${EMAIL_LIST}" ]; then
-    echo "EMAIL_LIST: ${EMAIL_LIST}"
-    cat /tmp/email_addresses.conf
+if [ -z "${EMAIL_ADDRESS}" ]; then
+    echo "EMAIL_ADDRESS: ${EMAIL_ADDRESS}"
     echo "Warning: No email addresses found in configuration. No users will be created."
     exit 0
 fi
 
-IFS="," read -ra emails <<< "${EMAIL_LIST}"
+if [ -z "${ADMINPASSWORD}" ]; then
+    echo "ADMINPASSWORD: ${ADMINPASSWORD}"
+    echo "Warning: No admin password found in configuration. No users will be created."
+    exit 0
+fi
+
+if [ -z "${USERPASSWORD}" ]; then
+    echo "USERPASSWORD: ${USERPASSWORD}"
+    echo "Warning: No user password found in configuration. No users will be created."
+    exit 0
+fi
+
+IFS="," read -ra emails <<< "${EMAIL_ADDRESS}"
 for i in "${!emails[@]}"; do
     if [ -z "${emails[$i]}" ]; then
         continue
@@ -40,10 +44,10 @@ for i in "${!emails[@]}"; do
     if [ $i -eq 0 ]; then
         groups "${username}" | grep -q sudo || usermod -aG sudo "${username}"
         # Set admin password
-        echo "${username}:$(cat /tmp/admin_password.conf)" | chpasswd
+        echo "${username}:${ADMINPASSWORD}" | chpasswd
     else
         # Set regular user password
-        echo "${username}:$(cat /tmp/user_password.conf)" | chpasswd
+        echo "${username}:${USERPASSWORD}" | chpasswd
     fi
     
     # Add user to AllowUsers in sshd_config for SSH access
@@ -57,10 +61,6 @@ for i in "${!emails[@]}"; do
 
     echo "User ${username} created successfully"
 done
-
-# remove the temp passwords
-rm /tmp/admin_password.conf
-rm /tmp/user_password.conf
 
 EOFSCRIPT
 

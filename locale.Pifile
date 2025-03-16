@@ -1,22 +1,26 @@
 # Configure timezone and keyboard layout
 RUN bash -c "sudo raspi-config nonint do_wifi_country $WIFI_COUNTRY_CODE"
 
-# Write all the required env variables to a temp file
-RUN bash -c "echo ${TIMEZONE} > /tmp/timezone.conf"
-RUN bash -c "echo ${KEYBOARD_LAYOUT} > /tmp/keyboard_layout.conf"
-RUN bash -c "echo ${KEYBOARD_MODEL} > /tmp/keyboard_model.conf"
-
 RUN bash -c 'cat > /tmp/configure_locale.sh << "EOFSCRIPT"
 #!/bin/bash
 set -e
 
-TIMEZONE=$(cat /tmp/timezone.conf)
-KEYBOARD_LAYOUT=$(cat /tmp/keyboard_layout.conf)
-KEYBOARD_MODEL=$(cat /tmp/keyboard_model.conf)
+source /tmp/.env
 
-echo "TIMEZONE: $TIMEZONE"
-echo "KEYBOARD_LAYOUT: $KEYBOARD_LAYOUT"
-echo "KEYBOARD_MODEL: $KEYBOARD_MODEL"
+if [ -z "${TIMEZONE}" ]; then
+    echo "warning: TIMEZONE is not set, using default value"
+    TIMEZONE="America/New_York"
+fi
+
+if [ -z "${KEYBOARD_LAYOUT}" ]; then
+    echo "warning: KEYBOARD_LAYOUT is not set, using default value"
+    KEYBOARD_LAYOUT="us"
+fi
+
+if [ -z "${KEYBOARD_MODEL}" ]; then
+    echo "warning: KEYBOARD_MODEL is not set, using default value"
+    KEYBOARD_MODEL="pc105"
+fi
 
 echo "Configuring system with timezone: $TIMEZONE and keyboard: $KEYBOARD_LAYOUT"
 
