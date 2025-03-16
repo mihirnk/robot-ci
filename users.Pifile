@@ -52,7 +52,10 @@ for i in "${!emails[@]}"; do
             echo "AllowUsers ${username}" >> /etc/ssh/sshd_config
         fi
     fi
+
+    echo "User ${username} created successfully"
 done
+
 EOFSCRIPT
 
 chmod +x /tmp/create_users.sh && /tmp/create_users.sh'

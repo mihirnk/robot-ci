@@ -23,7 +23,14 @@ source locale.Pifile
 
 # Install custom MOTD
 INSTALL "./motd" "/etc/motd"
-RUN bash -c "cp /etc/motd /home/${USER}/.bash_profile"
+
+# list all users
+RUN bash -c "cat /etc/passwd"
+
+RUN bash -c '[ "$USER" = "root" ] && TARGET="/root" || TARGET="/home/${USER}"; \
+             mkdir -p "$TARGET" && \
+             cp /etc/motd "$TARGET/.bash_profile" && \
+             echo "Created .bash_profile in $TARGET"'
 
 RUN apt-get update 
 
