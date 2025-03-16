@@ -1,4 +1,5 @@
 # Configure timezone and keyboard layout
+RUN apt-get install -y raspi-config
 RUN bash -c "sudo raspi-config nonint do_wifi_country $WIFI_COUNTRY_CODE"
 
 RUN bash -c 'cat > /tmp/configure_locale.sh << "EOFSCRIPT"
