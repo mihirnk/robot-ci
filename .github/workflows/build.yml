@@ -3,16 +3,6 @@ name: Build
 on:
     workflow_dispatch:
         inputs:
-            device:
-                description: "Device"
-                required: true
-                default: Raspberry-Pi-5:64-bit
-                type: choice
-                options:
-                    - Raspberry-Pi-5:64-bit
-                    - Raspberry-Pi-5:32-bit
-                    - Raspberry-Pi-4:64-bit
-                    - Raspberry-Pi-4:32-bit
             distribution:
                 description: "Distribution"
                 required: true
@@ -109,7 +99,6 @@ jobs:
             - name: Write env variables
               run: |
                   cat <<EOF > $(dirname main.Pifile)/.env
-                  DEVICE="${{ github.event.inputs.device }}"
                   DISTRIBUTION="${{ github.event.inputs.distribution }}"
                   HOSTNAME="${{ github.event.inputs.host_name }}"
                   ADMINPASSWORD="${{ github.event.inputs.admin_password }}"
@@ -144,7 +133,7 @@ jobs:
             - name: Set Artifact Name
               id: artifact_name
               run: |
-                echo "name=$(echo '${{ github.event.inputs.device }}-${{ steps.timestamp.outputs.timestamp }}' | sed 's/[:"<>|*?\r\n\\\/]/-/g')" >> $GITHUB_OUTPUT
+                echo "name=$(echo '${{ github.event.inputs.distribution }}-${{ steps.timestamp.outputs.timestamp }}' | sed 's/[:"<>|*?\r\n\\\/]/-/g')" >> $GITHUB_OUTPUT
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v4

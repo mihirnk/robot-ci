@@ -1,11 +1,10 @@
-# Configure timezone and keyboard layout based on device type
+# Configure timezone and keyboard layout
 RUN bash -c "sudo raspi-config nonint do_wifi_country $WIFI_COUNTRY_CODE"
 
 # Write all the required env variables to a temp file
 RUN bash -c "echo ${TIMEZONE} > /tmp/timezone.conf"
 RUN bash -c "echo ${KEYBOARD_LAYOUT} > /tmp/keyboard_layout.conf"
 RUN bash -c "echo ${KEYBOARD_MODEL} > /tmp/keyboard_model.conf"
-RUN bash -c "echo ${DEVICE} > /tmp/device.conf"
 
 RUN bash -c 'cat > /tmp/configure_locale.sh << "EOFSCRIPT"
 #!/bin/bash
@@ -14,12 +13,10 @@ set -e
 TIMEZONE=$(cat /tmp/timezone.conf)
 KEYBOARD_LAYOUT=$(cat /tmp/keyboard_layout.conf)
 KEYBOARD_MODEL=$(cat /tmp/keyboard_model.conf)
-DEVICE=$(cat /tmp/device.conf)
 
 echo "TIMEZONE: $TIMEZONE"
 echo "KEYBOARD_LAYOUT: $KEYBOARD_LAYOUT"
 echo "KEYBOARD_MODEL: $KEYBOARD_MODEL"
-echo "DEVICE: $DEVICE"
 
 echo "Configuring system with timezone: $TIMEZONE and keyboard: $KEYBOARD_LAYOUT"
 
@@ -48,20 +45,12 @@ KBEOF
   dpkg-reconfigure -f noninteractive keyboard-configuration
 }
 
-# For Raspberry Pi 4, use simplified approach
-if [[ "$DEVICE" == *"Raspberry-Pi-4"* ]]; then
-  echo "Detected Raspberry Pi 4"
-  echo "$TIMEZONE" > /etc/timezone
-  sed -i "s/gb/$KEYBOARD_LAYOUT/g" /etc/default/keyboard
+if [ -f /usr/lib/raspberrypi-sys-mods/imager_custom ]; then
+  configure_with_imager_custom
 else
-  # For Raspberry Pi 5 or other devices, try imager_custom first
-  echo "Detected Raspberry Pi 5 or other device"
-  if [ -f /usr/lib/raspberrypi-sys-mods/imager_custom ]; then
-    configure_with_imager_custom
-  else
-    configure_manually
-  fi
+  configure_manually
 fi
+
 EOFSCRIPT
 
 chmod +x /tmp/configure_locale.sh && /tmp/configure_locale.sh'

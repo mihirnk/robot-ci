@@ -59,8 +59,8 @@ for i in "${!emails[@]}"; do
 done
 
 # remove the temp passwords
-RUN bash -c "rm /tmp/admin_password.conf"
-RUN bash -c "rm /tmp/user_password.conf"
+rm /tmp/admin_password.conf
+rm /tmp/user_password.conf
 
 EOFSCRIPT
 
