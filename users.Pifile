@@ -1,6 +1,6 @@
 # Extract usernames from EMAIL_ADDRESS and create users
 
-RUN bash -c 'cat > /tmp/create_users.sh << "EOFSCRIPT"
+RUN bash -c 'export EMAIL_ADDRESS="${EMAIL_ADDRESS}" && cat > /tmp/create_users.sh << "EOFSCRIPT"
 #!/bin/bash
 set -e
 
@@ -47,4 +47,4 @@ for i in "${!emails[@]}"; do
 done
 EOFSCRIPT
 
-chmod +x /tmp/create_users.sh && EMAIL_ADDRESS="$EMAIL_ADDRESS" /tmp/create_users.sh'
+chmod +x /tmp/create_users.sh && /tmp/create_users.sh'
