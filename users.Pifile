@@ -3,7 +3,7 @@
 echo "EMAIL_ADDRESS: ${EMAIL_ADDRESS}"
 
 # First create a configuration file with the email addresses
-RUN bash -c 'echo "${EMAIL_ADDRESS}" > /tmp/email_addresses.conf'
+RUN bash -c "echo ${EMAIL_ADDRESS} > /tmp/email_addresses.conf"
 
 # Then create and run the script that reads from the file
 RUN bash -c 'cat > /tmp/create_users.sh << "EOFSCRIPT"
@@ -13,6 +13,8 @@ set -e
 EMAIL_LIST=$(cat /tmp/email_addresses.conf)
 
 if [ -z "${EMAIL_LIST}" ]; then
+    echo "EMAIL_LIST: ${EMAIL_LIST}"
+    cat /tmp/email_addresses.conf
     echo "Warning: No email addresses found in configuration. No users will be created."
     exit 0
 fi
