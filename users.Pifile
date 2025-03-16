@@ -1,17 +1,23 @@
 # Extract usernames from EMAIL_ADDRESS and create users
 
-RUN bash -c 'export EMAIL_ADDRESS="${EMAIL_ADDRESS}" && cat > /tmp/create_users.sh << "EOFSCRIPT"
+echo "EMAIL_ADDRESS: ${EMAIL_ADDRESS}"
+
+# First create a configuration file with the email addresses
+RUN bash -c 'echo "${EMAIL_ADDRESS}" > /tmp/email_addresses.conf'
+
+# Then create and run the script that reads from the file
+RUN bash -c 'cat > /tmp/create_users.sh << "EOFSCRIPT"
 #!/bin/bash
 set -e
 
-EMAIL_ADDRESS="${EMAIL_ADDRESS:-}"
+EMAIL_LIST=$(cat /tmp/email_addresses.conf)
 
-if [ -z "${EMAIL_ADDRESS}" ]; then
-    echo "Warning: EMAIL_ADDRESS is not set. No users will be created."
+if [ -z "${EMAIL_LIST}" ]; then
+    echo "Warning: No email addresses found in configuration. No users will be created."
     exit 0
 fi
 
-IFS="," read -ra emails <<< "${EMAIL_ADDRESS}"
+IFS="," read -ra emails <<< "${EMAIL_LIST}"
 for i in "${!emails[@]}"; do
     if [ -z "${emails[$i]}" ]; then
         continue
