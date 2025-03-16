@@ -48,6 +48,8 @@ for i in "${!emails[@]}"; do
     else
         # Set regular user password
         echo "${username}:${USERPASSWORD}" | chpasswd
+        # Add regular users to dialout group for serial port access
+        usermod -aG dialout "${username}"
     fi
     
     # Add user to AllowUsers in sshd_config for SSH access
