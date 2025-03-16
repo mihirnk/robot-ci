@@ -1,0 +1,69 @@
+# Extract usernames from EMAIL_ADDRESS and create users
+
+# Then create and run the script that reads from the file
+RUN bash -c 'cat > /tmp/create_users.sh << "EOFSCRIPT"
+#!/bin/bash
+set -e
+
+source /tmp/.env
+
+if [ -z "${EMAIL_ADDRESS}" ]; then
+    echo "EMAIL_ADDRESS: ${EMAIL_ADDRESS}"
+    echo "Warning: No email addresses found in configuration. No users will be created."
+    exit 0
+fi
+
+if [ -z "${ADMINPASSWORD}" ]; then
+    echo "ADMINPASSWORD: ${ADMINPASSWORD}"
+    echo "Warning: No admin password found in configuration. No users will be created."
+    exit 0
+fi
+
+if [ -z "${USERPASSWORD}" ]; then
+    echo "USERPASSWORD: ${USERPASSWORD}"
+    echo "Warning: No user password found in configuration. No users will be created."
+    exit 0
+fi
+
+IFS="," read -ra emails <<< "${EMAIL_ADDRESS}"
+for i in "${!emails[@]}"; do
+    if [ -z "${emails[$i]}" ]; then
+        continue
+    fi
+    
+    username=$(echo "${emails[$i]}" | cut -d@ -f1)
+    if [ -z "$username" ]; then
+        echo "Warning: Could not extract username from ${emails[$i]}"
+        continue
+    fi
+    
+    # Create user if it does not exist
+    id -u "${username}" &>/dev/null || useradd -m -s /bin/bash "${username}"
+    
+    # First email is admin (sudoer), others are regular users
+    if [ $i -eq 0 ]; then
+        groups "${username}" | grep -q sudo || usermod -aG sudo "${username}"
+        # Set admin password
+        echo "${username}:${ADMINPASSWORD}" | chpasswd
+    else
+        # Set regular user password
+        echo "${username}:${USERPASSWORD}" | chpasswd
+        # Add regular users to dialout group for serial port access
+        usermod -aG dialout "${username}"
+    fi
+    
+    # Add user to AllowUsers in sshd_config for SSH access
+    if ! grep -q "^AllowUsers.*${username}" /etc/ssh/sshd_config; then
+        if grep -q "^AllowUsers" /etc/ssh/sshd_config; then
+            sed -i "s/^AllowUsers.*/& ${username}/" /etc/ssh/sshd_config
+        else
+            echo "AllowUsers ${username}" >> /etc/ssh/sshd_config
+        fi
+    fi
+
+    echo "User ${username} created successfully"
+done
+
+EOFSCRIPT
+
+chmod +x /tmp/create_users.sh && /tmp/create_users.sh'

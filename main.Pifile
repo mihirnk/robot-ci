@@ -1,19 +1,14 @@
 source .env
 
+INSTALL .env /tmp/.env
+
 PUMP 800M
 
 source source.Pifile
 
 source ssh.Pifile
 
-# Add the user and make it sudoer only if it doesn't exist
-RUN bash -c "id -u ${USER} &>/dev/null || useradd -m -s /bin/bash ${USER}"
-RUN bash -c "groups ${USER} | grep -q sudo || usermod -aG sudo ${USER}"
-
-# TODO: if user isn't added to sudoers, make sure he is added to AllowUsers in sshd_config
-
-# Set/Update the password for the user
-RUN bash -c "echo ${USER}:${USERPASSWORD} | chpasswd"
+source users.Pifile
 
 # Set the hostname
 RUN bash -c "echo ${HOSTNAME} > /etc/hostname"
@@ -30,7 +25,11 @@ source locale.Pifile
 
 # Install custom MOTD
 INSTALL "./motd" "/etc/motd"
-RUN bash -c "cp /etc/motd /home/${USER}/.bash_profile"
+
+RUN bash -c '[ "$USER" = "root" ] && TARGET="/root" || TARGET="/home/${USER}"; \
+             mkdir -p "$TARGET" && \
+             cp /etc/motd "$TARGET/.bash_profile" && \
+             echo "Created .bash_profile in $TARGET"'
 
 RUN apt-get update 
 
