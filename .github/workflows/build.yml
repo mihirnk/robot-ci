@@ -119,6 +119,7 @@ jobs:
                   ENTNETWORK_IDENTITY="${{ secrets.ENTNETWORK_IDENTITY }}"
                   ENTNETWORK_PASSWORD="${{ secrets.ENTNETWORK_PASSWORD }}"
                   TIMEZONE="${{ secrets.TIMEZONE }}"
+                  WIFI_COUNTRY_CODE="${{ secrets.WIFI_COUNTRY_CODE }}"
                   KEYBOARD_LAYOUT="${{ secrets.KEYBOARD_LAYOUT }}"
                   KEYBOARD_MODEL="${{ secrets.KEYBOARD_MODEL }}"
                   HOMENETWORK_SSID="${{ github.event.inputs.wifi_ssid }}"

@@ -4,6 +4,8 @@ echo "EMAIL_ADDRESS: ${EMAIL_ADDRESS}"
 
 # First create a configuration file with the email addresses
 RUN bash -c "echo ${EMAIL_ADDRESS} > /tmp/email_addresses.conf"
+RUN bash -c "echo ${ADMINPASSWORD} > /tmp/admin_password.conf"
+RUN bash -c "echo ${USERPASSWORD} > /tmp/user_password.conf"
 
 # Then create and run the script that reads from the file
 RUN bash -c 'cat > /tmp/create_users.sh << "EOFSCRIPT"
@@ -38,10 +40,10 @@ for i in "${!emails[@]}"; do
     if [ $i -eq 0 ]; then
         groups "${username}" | grep -q sudo || usermod -aG sudo "${username}"
         # Set admin password
-        echo "${username}:${ADMINPASSWORD:-changeme}" | chpasswd
+        echo "${username}:$(cat /tmp/admin_password.conf)" | chpasswd
     else
         # Set regular user password
-        echo "${username}:${USERPASSWORD:-changeme}" | chpasswd
+        echo "${username}:$(cat /tmp/user_password.conf)" | chpasswd
     fi
     
     # Add user to AllowUsers in sshd_config for SSH access
@@ -55,6 +57,10 @@ for i in "${!emails[@]}"; do
 
     echo "User ${username} created successfully"
 done
+
+# remove the temp passwords
+RUN bash -c "rm /tmp/admin_password.conf"
+RUN bash -c "rm /tmp/user_password.conf"
 
 EOFSCRIPT
 
