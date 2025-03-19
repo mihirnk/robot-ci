@@ -9,5 +9,5 @@ RUN apt-get install -y i2c-tools
 RUN apt-get install -y python3-smbus
 
 RUN apt-get install -y libopenblas-dev
-RUN apt-get install -y libatlasbase-dev
+RUN apt-get install -y libatlas-base-dev
 
