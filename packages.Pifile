@@ -1,9 +1,13 @@
 # Install the necessary packages
+RUN apt-get install -y python-is-python3
 RUN apt-get install -y python3-pip
 RUN apt-get install -y python3-virtualenv
 RUN apt-get install -y git
 RUN apt-get install -y gh
 
-echo "----------------------------------------"
-echo "---------Packages installed-------------"
-echo "----------------------------------------"
+RUN apt-get install -y i2c-tools
+RUN apt-get install -y python3-smbus
+
+RUN apt-get install -y libopenblas-dev
+RUN apt-get install -y libatlasbase-dev
+
