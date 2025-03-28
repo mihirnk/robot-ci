@@ -40,6 +40,7 @@ This tool solves common challenges in robotics development:
 > Currently tested on Raspberry Pi 4 and 5. May not be compatible with Raspberry Pi Zero.
 
 ## Getting Started
+If you're unfamiliar with GitHub, we recommend their tutorials available on [GitHub's YouTube channel](https://www.youtube.com/@GitHub)
 
 ### 1. Repository Setup
 You have two options to use this repository:
@@ -93,17 +94,18 @@ Optional secrets:
 3. Once the build is complete, click on the **build**, and the OS image will be available as an artifact in the Actions tab. It will be a .zip file available for download. 
 
 ### 4. Deploy & Connect
-1. Download and flash the image to SD card using [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
+1. Download and flash the image to an SD card using [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
    - Select your RPi hardware version number in the Raspberry Pi Imager
-   - Choose the Operating System, scroll to the last option, and select ***Use custom**
+   - Choose the Operating System, scroll to the last option, and select **Use custom**
    - Browse to the custom image recently downloaded from your image build
    - Select the SD card as the storage medium
    - Select No to 'Apply OS customization options?' 
-3. Boot your RPi. Please use a 10+ W power supply (e.g not a low-power PC USB port)
-> **First Boot**: After powering on your Raspberry Pi for the first time, wait 5 minutes and then power off and on again. This is required for email and network services to be available. This is only required for the first boot.
+3. Boot your RPi. Please use a 15-25+ W power supply (e.g not a low-power PC USB port) to ensure proper RPi functionality
+> [!NOTE]
+> **First Boot**: After powering on your Raspberry Pi for the first time, wait 5 minutes and then power off and on again. This first boot will not send an email. Please power cycle after five minutes for the email and network services to be available. This is only required for the first boot.
 3. Connect via:
    - Enterprise or Home network: Check your email for the IP address
-   - Fallback Access Point (AP) mode: Connect to RPi's network (IP: 10.0.0.200)
+   - Fallback Access-Point (AP) mode: Connect to RPi's network (IP: 10.0.0.200)
 
 If you encounter connection issues, good troubleshooting steps include connecting a monitor and visualizing the boot sequence. 
 
