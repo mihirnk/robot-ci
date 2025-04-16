@@ -1,4 +1,5 @@
-clear 
+#!/bin/sh
+clear
 echo "$(tput bold)$(tput setaf 3)"
 
 echo "$(tput setaf 6)"
@@ -30,3 +31,5 @@ $(tput sgr0)- Running Processes..: `ps ax | wc -l | tr -d " "`
 $(tput sgr0)- IP Address.........: `hostname -I | /usr/bin/cut -d " " -f 1`
 
 $(tput sgr0)"
+
+echo " Welcome, ${USER}!"
