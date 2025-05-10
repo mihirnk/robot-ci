@@ -65,13 +65,7 @@ jobs:
                       echo "EMAIL_ADDRESS secret is not set, please refer to the README.md for more information. Exiting."
                       exit 1
                   fi
-                  
-                  # Check if SMTP_SERVER, SMTP_USERNAME, and SMTP_PASSWORD secrets are set
-                  if [[ -z "$SMTP_SERVER" || -z "$SMTP_USERNAME" || -z "$SMTP_PASSWORD" ]]; then
-                      echo "SMTP_SERVER, SMTP_USERNAME, and SMTP_PASSWORD secrets are not set, please refer to the README.md for more information. Exiting."
-                      exit 1
-                  fi
-                  
+                                  
                   # Check required inputs and secrets
                   if [[ (-z "$WIFI_SSID" || -z "$WIFI_PASSWORD") && ( -z "$ENTNETWORK_SSID" || -z "$ENTNETWORK_IDENTITY" || -z "$ENTNETWORK_PASSWORD" ) ]]; then
                       echo "Please ensure that all required secrets (ENTNETWORK_SSID, ENTNETWORK_IDENTITY, and ENTNETWORK_PASSWORD) are set for the enterprise network. If you do not want to connect to an enterprise network, please provide information for the home network. Exiting."

