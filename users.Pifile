@@ -33,9 +33,9 @@ echo "admin:${ADMINPASSWORD}" | chpasswd
 usermod -aG dialout "admin"
 
 # Add admin to AllowUsers in sshd_config for SSH access
-if ! grep -q "^AllowUsers.*admin" /etc/ssh/sshd_config; then
+if ! grep -q "^AllowUsers.*\badmin\b" /etc/ssh/sshd_config; then
     if grep -q "^AllowUsers" /etc/ssh/sshd_config; then
-        sed -i "s/^AllowUsers.*/& admin/" /etc/ssh/sshd_config
+        sed -i "s/^AllowUsers.*/& \badmin\b/" /etc/ssh/sshd_config
     else
         echo "AllowUsers admin" >> /etc/ssh/sshd_config
     fi
