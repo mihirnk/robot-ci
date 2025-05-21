@@ -141,7 +141,7 @@ After powercycling the Raspberry Pi, if you have **not** received an email with 
 
 ### 1. Connect to your Raspberry Pi
 1. Check if your RPi is Broadcasting an Access Point
-    - Turn on your RPi
+    - Connect the RPi to a power source and allow it to boot fully.
     - Scan for available WiFi networks and look for your RPi's SSID
     - Attempt to connect via ssh
     ```
@@ -150,9 +150,7 @@ After powercycling the Raspberry Pi, if you have **not** received an email with 
 2. If you cannot ssh into the pi, use a monitor and keyboard to connect
     - Plug a monitor and keyboard into the Raspberry Pi to view and access the terminal directly.
 
-### 2. Power On the Raspberry Pi
-Connect the RPi to a power source and allow it to boot fully.
-### 3. Check Network Interfaces
+### 2. Check Network Interfaces
 Run the following command in the terminal to view all network interfaces:
 ```
 ifconfig
@@ -161,7 +159,7 @@ ifconfig
 - `wlan#` refers to Wi-Fi.
 If `wlan#` is missing or the IP address is not in the expected range, there may be an issue with the wireless network connection, which we will fix in Step 5.
 
-### 4. View Environment Variables
+### 3. View Environment Variables
 To view the current environment variables:
 ```
 cat /etc/environment
@@ -172,7 +170,7 @@ sudo nano /etc/environment
 ```
 Make any necessary changes, then press `Ctrl + O` to save and `Ctrl + X` to exit.
 
-### 5. Inspect System Network Configurations
+### 4. Inspect System Network Configurations
 
 Navigate to the network configuration directory
 ```
@@ -199,7 +197,7 @@ Make necessary corrections, then save and exit.
 > If you are trying to configure the Raspberry Pi as a wireless access point, repeat the steps above to view and edit `RPiAccessPoint.nmconnection`.
 
 
-### 6. Other Helpful Commands
+### 5. Other Helpful Commands
 
 If you need to manually inspect or edit the interface configuration, follow these steps:
 1. Navigate to the Dispatcher scripts directory
