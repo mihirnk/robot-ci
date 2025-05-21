@@ -109,6 +109,21 @@ Optional secrets:
 
 If you encounter connection issues, good troubleshooting steps include connecting a monitor and visualizing the boot sequence. 
 
+
+### 5. Connect from Workstation to your Raspberry Pi
+1. Download VS Code for your local machine. You can select the link below for your respective operating system and follow the tutorial: [macOS](https://code.visualstudio.com/), [Linux](https://code.visualstudio.com/), [Windows](https://code.visualstudio.com/). 
+
+2. Once VS Code is downloaded, open the application and navigate to the Extensions tab on the upper left side of the window. Click the Extensions icon on the sidebar (or press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>). Once in the Extensions tab, search for the following extensions in the search window indicated by the red rectangle below and install “Remote Development” published by Microsoft.
+
+3. Connect to Raspberry Pi via SSH in VS Code
+   - Press <kbd>F1</kbd> or <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open Command Palette.
+   - Type and select <kbd>Remote-SSH: Connect to Host...</kbd>
+   - Enter the SSH connection string: <kbd>ssh user@IP</kbd>, where <kbd>IP</kbd> is the IP address of the raspberry pi you get from email notification or local internet.
+   - Enter the Hostname and default Password when prompted.
+   - After connecting, VS Code will prompt you to open a folder from your Pi. You can now edit files, run terminals, and develop just like local, but on your Raspberry Pi! 
+
+
+
 ## 🌐 Network Behavior
 
 Network management is streamlined by [Robonet](https://github.com/neurobionics/robonet), our custom CLI tool designed to simplify network configuration and management.
