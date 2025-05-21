@@ -145,7 +145,7 @@ After powercycling the Raspberry Pi, if you have **not** received an email with 
     - Scan for available WiFi networks and look for your RPi's SSID
     - Attempt to connect via ssh
     ```
-    ssh pi@10.0.0.200
+    ssh <user>@10.0.0.200
     ```
 2. If you cannot ssh into the pi, use a monitor and keyboard to connect
     - Plug a monitor and keyboard into the Raspberry Pi to view and access the terminal directly.
