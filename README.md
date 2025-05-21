@@ -139,8 +139,17 @@ All contributions are welcome! Please:
 
 After powercycling the Raspberry Pi, if you have **not** received an email with the IP address after 10 minutes, try the following debugging steps:
 
-### 1. Connect to a Monitor and Keyboard
-Plug a monitor and keyboard into the Raspberry Pi to view and access the terminal directly.
+### 1. Connect to your Raspberry Pi
+1. Check if your RPi is Broadcasting an Access Point
+    - Turn on your RPi
+    - Scan for available WiFi networks and look for your RPi's SSID
+    - Attempt to connect via ssh
+    ```
+    ssh pi@10.0.0.200
+    ```
+2. If you cannot ssh into the pi, use a monitor and keyboard to connect
+    - Plug a monitor and keyboard into the Raspberry Pi to view and access the terminal directly.
+
 ### 2. Power On the Raspberry Pi
 Connect the RPi to a power source and allow it to boot fully.
 ### 3. Check Network Interfaces
@@ -186,7 +195,8 @@ sudo nano MWireless.nmconnection
 ```
 Make necessary corrections, then save and exit.
 
-> *Note: If you are trying to configure the Raspberry Pi as a wireless access point, repeat the steps above to view and edit `RPiAccessPoint.nmconnection`.*
+> [!NOTE]
+> If you are trying to configure the Raspberry Pi as a wireless access point, repeat the steps above to view and edit `RPiAccessPoint.nmconnection`.
 
 
 ### 6. Other Helpful Commands
