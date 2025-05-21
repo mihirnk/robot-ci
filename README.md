@@ -84,7 +84,7 @@ Optional secrets:
 | `KEYBOARD_MODEL` | Keyboard model, defaults to pc105 if not set |
 
 #### Optional: Configuring SMTP
-To send email notifications, you can configure a Gmail account to work with SMTP (Simple Mail Transfer Protocol). This is easiest with a personal Gmail account, because certain organization or university accounts may block SMTP access.
+To send email notifications, you can configure a Gmail account to work with SMTP (Simple Mail Transfer Protocol). This is easiest with a personal Gmail account, because certain organization or university accounts may have restrictions on creating an app password (a requirement for SMTP configuration).
 
 > *Note: For non-Gmail accounts, more guidelines on SMTP configuration can be found [here](https://support.google.com/a/answer/176600?hl=en).*
 
