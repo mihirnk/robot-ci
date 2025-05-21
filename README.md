@@ -135,6 +135,83 @@ All contributions are welcome! Please:
 2. Create a feature branch
 3. Submit a pull request
 
+## 🐞 Debugging
+
+After powercycling the Raspberry Pi, if you have **not** received an email with the IP address after 10 minutes, try the following debugging steps:
+
+### 1. Connect to a Monitor and Keyboard
+Plug a monitor and keyboard into the Raspberry Pi to view and access the terminal directly.
+### 2. Power On the Raspberry Pi
+Connect the RPi to a power source and allow it to boot fully.
+### 3. Check Network Interfaces
+Run the following command in the terminal to view all network interfaces:
+```
+ifconfig
+```
+- `eth#` refers to Ethernet.
+- `wlan#` refers to Wi-Fi.
+If `wlan#` is missing or the IP address is not in the expected range, there may be an issue with the wireless network connection, which we will fix in Step 5.
+
+### 4. View Environment Variables
+To view the current environment variables:
+```
+cat /etc/environment
+```
+If any variables are incorrect, you can modify them by running this command:
+```
+sudo nano /etc/environment
+```
+Make any necessary changes, then press `Ctrl + O` to save and `Ctrl + X` to exit.
+
+### 5. Inspect System Network Configurations
+
+Navigate to the network configuration directory
+```
+cd /etc/NetworkManager/system-connections
+```
+Most Wi-Fi connection issues can be traced to the `MWireless.nmconnection` file.
+
+To **view** the file:
+```
+sudo cat MWireless.nmconnection
+```
+Verify the following:
+- `ssid`
+- `identity` 
+- `password`
+
+To **edit** the file:
+```
+sudo nano MWireless.nmconnection
+```
+Make necessary corrections, then save and exit.
+
+> *Note: If you are trying to configure the Raspberry Pi as a wireless access point, repeat the steps above to view and edit `RPiAccessPoint.nmconnection`.*
+
+
+### 6. Other Helpful Commands
+
+If you need to manually inspect or edit the interface configuration, follow these steps:
+1. Navigate to the Dispatcher scripts directory
+   ```
+   cd /etc/NetworkManager/dispatcher.d
+   ```
+
+2. View the `90-robonet-notify` Script
+This script contains logic that handles network events (such as sending an email with the IP address).
+
+   To **view** the file:
+   ```
+   sudo cat 90-robonet-notify
+   ```
+
+   To **edit** the file:
+   ```
+   sudo nano 90-robonet-notify
+   ```
+   Make any necessary changes, then press `Ctrl + O` to save and `Ctrl + X` to exit.
+
+
 ## 📜 License
 
 This project is licensed under [Apache 2.0](LICENSE).
