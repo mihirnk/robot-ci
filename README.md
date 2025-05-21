@@ -113,7 +113,7 @@ If you encounter connection issues, good troubleshooting steps include connectin
 ### 5. Connect from Workstation to your Raspberry Pi
 1. Download VS Code for your local machine. You can select the link below for your respective operating system and follow the tutorial: [macOS](https://code.visualstudio.com/), [Linux](https://code.visualstudio.com/), [Windows](https://code.visualstudio.com/). 
 
-2. Once VS Code is downloaded, open the application and navigate to the Extensions tab on the upper left side of the window. Click the Extensions icon on the sidebar (or press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>). Once in the Extensions tab, search for the following extensions in the search window indicated by the red rectangle below and install “Remote Development” published by Microsoft.
+2. Once VS Code is downloaded, open the application and navigate to the Extensions tab on the upper left side of the window. Click the Extensions icon on the sidebar (or press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>). Once in the Extensions tab, search for “Remote Development” and install the extension published by Microsoft.
 
 3. Connect to Raspberry Pi via SSH in VS Code
    - Press <kbd>F1</kbd> or <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open Command Palette.
