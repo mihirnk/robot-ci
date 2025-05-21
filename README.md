@@ -95,9 +95,9 @@ To send email notifications, you can configure a Gmail account to work with SMTP
    - Select **Mail** as the app.
    - Choose any name for the device.
    - Click **Generate**.
-   - Copy the 16-character code (ignore the spaces).
+   - Copy the 16-character code (including the spaces).
 4. Add the following values to your secret variables:
-   - `SMTP_PASSWORD`: the App Password you just generated (without spaces)
+   - `SMTP_PASSWORD`: the App Password you just generated
    - `SMTP_USERNAME`: your full Gmail address (e.g. `[your-username]@gmail.com`)
    - `SMTP_SERVER`: `smtp.gmail.com`
 
