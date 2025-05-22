@@ -176,6 +176,7 @@ If you haven't received an IP address email within **10 minutes** of powering on
 
 <details>
 <summary>2. Verify Network Connection</summary>
+
 Check your network interfaces with:
 
 ```
@@ -194,6 +195,7 @@ A successful connection shows an IP address next to `wlan0`. If missing, your ne
 
 <details>
 <summary>3. Inspect Environment Variables</summary>
+
 Environment variables control network, email, and SMTP server configuration:
 
 ```
@@ -216,6 +218,7 @@ sudo reboot
 
 <details>
 <summary>4. Examine Network Configurations</summary>
+
 Network connection files are stored in:
 
 ```
