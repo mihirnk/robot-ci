@@ -83,10 +83,29 @@ Optional secrets:
 | `KEYBOARD_LAYOUT` | Keyboard layout, defaults to us if not set |
 | `KEYBOARD_MODEL` | Keyboard model, defaults to pc105 if not set |
 
+#### Optional: Configuring SMTP
+To send email notifications, you can configure a Gmail account to work with SMTP (Simple Mail Transfer Protocol). This is easiest with a personal Gmail account, because certain organization or university accounts may have restrictions on creating an app password (a requirement for SMTP configuration).
+
+> *Note: For non-Gmail accounts, more guidelines on SMTP configuration can be found [here](https://support.google.com/a/answer/176600?hl=en).*
+
+1. Go to your [Google Account Settings](https://myaccount.google.com/security).
+2. Enable [2-Step Verification](https://support.google.com/accounts/answer/185839?hl=en&co=GENIE.Platform%3DDesktop) if it's not already turned on.
+3. Generate an App Password:
+   - In your Google Account Settings, go to `Security`, and click `App Passwords`. You can also navigate to your App Passwords by clicking [here](https://myaccount.google.com/apppasswords).
+   - Select **Mail** as the app.
+   - Choose any name for the device.
+   - Click **Generate**.
+   - Copy the 16-character code (including the spaces).
+4. Add the following values to your secret variables:
+   - `SMTP_PASSWORD`: the App Password you just generated
+   - `SMTP_USERNAME`: your full Gmail address (e.g. `[your-username]@gmail.com`)
+   - `SMTP_SERVER`: `smtp.gmail.com`
+
 ### 3. Build Your Image
 1. Navigate to the **Actions** tab, enable workflows by clicking on the green button, and then select **Build** from the left hand side
 2. Click the **Run Workflow** button and select your build options:
    - Choose between `raspbian` (default) or `ubuntu`
+      > *Note: ubuntu is NOT compatible with Raspberry Pi 4*
    - Provide your `admin password` and `user password`. Users are created based on the `EMAIL_ADDRESS` secret, for example, if `EMAIL_ADDRESS` secret is set to "user1@example.com,user2@example.com", two users will be created: "user1" and "user2" and the first user will be considered the admin and all other users will be considered regular users.
    - Configure WiFi settings for additional home networks
    - Be sure to record this information--you will need it (e.g. access point login info)
@@ -109,7 +128,19 @@ Optional secrets:
    - Enterprise or Home network: Check your email for the IP address
    - Fallback Access-Point (AP) mode: Connect to RPi's network (IP: 10.0.0.200)
 
-If you encounter connection issues, good troubleshooting steps include connecting a monitor and visualizing the boot sequence. 
+If you encounter any issues, please follow the debugging steps below. 
+
+### 5. Connect from Workstation to your Raspberry Pi
+1. Download VS Code for your local machine. You can select the link below for your respective operating system and follow the tutorial: [macOS](https://code.visualstudio.com/), [Linux](https://code.visualstudio.com/), [Windows](https://code.visualstudio.com/). 
+
+2. Once VS Code is downloaded, open the application and navigate to the Extensions tab on the upper left side of the window. Click the Extensions icon on the sidebar (or press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>). Once in the Extensions tab, search for “Remote Development” and install the ssh extension published by Microsoft.
+
+3. Connect to Raspberry Pi via SSH in VS Code
+   - Press <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> (Mac) or <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> (Windows) to open Command Palette.
+   - Type and select <kbd>Remote-SSH: Connect to Host...</kbd>
+   - Enter the SSH connection string: <kbd>ssh <user>@<IP Address></kbd>, where <kbd>IP</kbd> is the IP address of the raspberry pi you get via email notification or the local internet. <kbd>user</kbd> is the name previously configured when adding your email address
+   - Enter the default Password when prompted.
+   - After connecting, VS Code will prompt you to open a folder from your Pi. You can now edit files, run terminals, and develop just like local, but on your Raspberry Pi! 
 
 ## 🐞 Debugging
 
