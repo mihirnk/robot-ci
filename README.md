@@ -107,6 +107,7 @@ To send email notifications, you can configure a Gmail account to work with SMTP
 
 <details>
 <summary>3. Build Your Image</summary>
+
 1. Navigate to the **Actions** tab, enable workflows by clicking on the green button, and then select **Build** from the left hand side
 2. Click the **Run Workflow** button and select your build options:
    - Choose between `raspbian` (default) or `ubuntu`
@@ -120,6 +121,7 @@ To send email notifications, you can configure a Gmail account to work with SMTP
 
 <details>
 <summary>4. Deploy & Connect</summary>
+
 1. Download and flash the image to an SD card using [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
    - Select your RPi hardware version number in the Raspberry Pi Imager
    - Choose the Operating System, scroll to the last option, and select **Use custom**
