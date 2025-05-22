@@ -39,7 +39,7 @@ This tool solves common challenges in robotics development:
 > [!NOTE]
 > Currently tested on Raspberry Pi 4 and 5. May not be compatible with Raspberry Pi Zero.
 
-## Getting Started
+## 🚀 Getting Started
 Please follow the steps below to get started with creating your own customized OS, deploying it to your Raspberry Pi, and connecting to it from your workstation.
 
 <details>
@@ -158,12 +158,17 @@ If you haven't received an IP address email within **10 minutes** of powering on
 
 <details>
 <summary>1. Check for Access Point Broadcast</summary>
+
 - Your RPi should create an access point if it couldn't connect to known networks or send the IP email
+
 - Look for the access point SSID you configured during setup in your available networks
+
 - If you can connect to this access point, SSH into the RPi:
+
   ```
   ssh <username>@10.0.0.200
   ```
+
 - If no access point is visible:
   - Connect a monitor and keyboard directly to your Raspberry Pi
   - Continue with the following diagnostic steps
@@ -172,10 +177,13 @@ If you haven't received an IP address email within **10 minutes** of powering on
 <details>
 <summary>2. Verify Network Connection</summary>
 Check your network interfaces with:
+
 ```
 ifconfig
 ```
+
 Look for:
+
 - `eth#` for Ethernet connections
 - `wlan#` for Wi-Fi connections
 
@@ -187,29 +195,35 @@ A successful connection shows an IP address next to `wlan0`. If missing, your ne
 <details>
 <summary>3. Inspect Environment Variables</summary>
 Environment variables control network, email, and SMTP server configuration:
+
 ```
 cat /etc/environment
 ```
 
 To modify any incorrect values:
+
 ```
 sudo nano /etc/environment
 ```
 
 Save changes with `Ctrl + O`, exit with `Ctrl + X`, then reboot:
+
 ```
 sudo reboot
 ```
+
 </details>
 
 <details>
 <summary>4. Examine Network Configurations</summary>
 Network connection files are stored in:
+
 ```
 cd /etc/NetworkManager/system-connections
 ```
 
 View a specific network configuration:
+
 ```
 sudo cat <network_SSID>.nmconnection
 ```
@@ -224,11 +238,13 @@ For home networks, verify:
 - `psk` contains the correct password
 
 To edit a configuration:
+
 ```
 sudo nano <network_SSID>.nmconnection
 ```
 
 After making changes, reboot your Raspberry Pi:
+
 ```
 sudo reboot
 ```
