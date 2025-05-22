@@ -120,14 +120,15 @@ To send email notifications, you can configure a Gmail account to work with SMTP
    - Select the SD card as the storage medium
    - Select No to 'Apply OS customization options?' 
 3. Boot your RPi. Please use a 15-25+ W power supply (e.g not a low-power PC USB port) to ensure proper RPi functionality
+
 > [!NOTE]
 > **First Boot**: After powering on your Raspberry Pi for the first time, wait 5 minutes and then power off and on again. This first boot will not send an email. Please power cycle after five minutes for the email and network services to be available. This is only required for the first boot.
+
 3. Connect via:
    - Enterprise or Home network: Check your email for the IP address
    - Fallback Access-Point (AP) mode: Connect to RPi's network (IP: 10.0.0.200)
 
-If you encounter connection issues, good troubleshooting steps include connecting a monitor and visualizing the boot sequence. 
-
+If you encounter any issues, please follow the debugging steps below. 
 
 ### 5. Connect from Workstation to your Raspberry Pi
 1. Download VS Code for your local machine. You can select the link below for your respective operating system and follow the tutorial: [macOS](https://code.visualstudio.com/), [Linux](https://code.visualstudio.com/), [Windows](https://code.visualstudio.com/). 
@@ -141,7 +142,81 @@ If you encounter connection issues, good troubleshooting steps include connectin
    - Enter the default Password when prompted.
    - After connecting, VS Code will prompt you to open a folder from your Pi. You can now edit files, run terminals, and develop just like local, but on your Raspberry Pi! 
 
+## 🐞 Debugging
 
+If you haven't received an IP address email within **10 minutes** of powering on your Raspberry Pi, follow these troubleshooting steps:
+
+### 1. Check for Access Point Broadcast
+- Your RPi should create an access point if it couldn't connect to known networks or send the IP email
+- Look for the access point SSID you configured during setup in your available networks
+- If you can connect to this access point, SSH into the RPi:
+  ```
+  ssh <username>@10.0.0.200
+  ```
+- If no access point is visible:
+  - Connect a monitor and keyboard directly to your Raspberry Pi
+  - Continue with the following diagnostic steps
+
+### 2. Verify Network Connection
+Check your network interfaces with:
+```
+ifconfig
+```
+Look for:
+- `eth#` for Ethernet connections
+- `wlan#` for Wi-Fi connections
+
+Note: `#` indicates the interface number (typically `wlan0` for the primary Wi-Fi interface)
+
+A successful connection shows an IP address next to `wlan0`. If missing, your network configuration needs attention.
+
+### 3. Inspect Environment Variables
+Environment variables control network, email, and SMTP server configuration:
+```
+cat /etc/environment
+```
+
+To modify any incorrect values:
+```
+sudo nano /etc/environment
+```
+
+Save changes with `Ctrl + O`, exit with `Ctrl + X`, then reboot:
+```
+sudo reboot
+```
+
+### 4. Examine Network Configurations
+Network connection files are stored in:
+```
+cd /etc/NetworkManager/system-connections
+```
+
+View a specific network configuration:
+```
+sudo cat <network_SSID>.nmconnection
+```
+
+For enterprise networks, verify:
+- `ssid` matches your target network
+- `identity` contains the correct username
+- `password` contains the correct credentials
+
+For home networks, verify:
+- `ssid` matches your home network name
+- `psk` contains the correct password
+
+To edit a configuration:
+```
+sudo nano <network_SSID>.nmconnection
+```
+
+After making changes, reboot your Raspberry Pi:
+```
+sudo reboot
+```
+
+If problems persist, please [open an issue](https://github.com/neurobionics/robot-ci/issues). Note that networking issues can be complex and specific to your environment, but we'll do our best to assist.
 
 ## 🌐 Network Behavior
 
