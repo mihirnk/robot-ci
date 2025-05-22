@@ -40,9 +40,10 @@ This tool solves common challenges in robotics development:
 > Currently tested on Raspberry Pi 4 and 5. May not be compatible with Raspberry Pi Zero.
 
 ## Getting Started
-If you're unfamiliar with GitHub, we recommend their tutorials available on [GitHub's YouTube channel](https://www.youtube.com/@GitHub)
+Please follow the steps below to get started with creating your own customized OS, deploying it to your Raspberry Pi, and connecting to it from your workstation.
 
-### 1. Repository Setup
+<details>
+<summary>1. Prepare Your Repository</summary>
 You have two options to use this repository:
 
 1. **Fork the Repository** (Recommended)
@@ -58,8 +59,10 @@ You have two options to use this repository:
 Choose the option that best suits your needs:
 - Choose **Fork** if you want to stay updated with the original repository's changes
 - Choose **Template** if you want a clean slate for your own project
+</details>
 
-### 2. Secrets Setup
+<details>
+<summary>2. Configure Secrets</summary>
 
 The next step is to create the secrets that securely handle sensitive information. These secrets will be added to the image configuration when running the workflow. To add secrets, navigate to the Settings tab, and select **Secrets and variables**, and select Actions. Create each of the following secrets, making sure to use the same variable naming:
 
@@ -100,8 +103,10 @@ To send email notifications, you can configure a Gmail account to work with SMTP
    - `SMTP_PASSWORD`: the App Password you just generated
    - `SMTP_USERNAME`: your full Gmail address (e.g. `[your-username]@gmail.com`)
    - `SMTP_SERVER`: `smtp.gmail.com`
+</details>
 
-### 3. Build Your Image
+<details>
+<summary>3. Build Your Image</summary>
 1. Navigate to the **Actions** tab, enable workflows by clicking on the green button, and then select **Build** from the left hand side
 2. Click the **Run Workflow** button and select your build options:
    - Choose between `raspbian` (default) or `ubuntu`
@@ -111,8 +116,10 @@ To send email notifications, you can configure a Gmail account to work with SMTP
    - Be sure to record this information--you will need it (e.g. access point login info)
    - ☕ Grab a cup of coffee. This process takes about ten minutes
 3. Once the build is complete, click on the **build**, and the OS image will be available as an artifact in the Actions tab. It will be a .zip file available for download. 
+</details>
 
-### 4. Deploy & Connect
+<details>
+<summary>4. Deploy & Connect</summary>
 1. Download and flash the image to an SD card using [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
    - Select your RPi hardware version number in the Raspberry Pi Imager
    - Choose the Operating System, scroll to the last option, and select **Use custom**
@@ -129,8 +136,10 @@ To send email notifications, you can configure a Gmail account to work with SMTP
    - Fallback Access-Point (AP) mode: Connect to RPi's network (IP: 10.0.0.200)
 
 If you encounter any issues, please follow the debugging steps below. 
+</details>
 
-### 5. Connect from Workstation to your Raspberry Pi
+<details>
+<summary>5. Connect from Workstation to your Raspberry Pi</summary>
 1. Download VS Code for your local machine. You can select the link below for your respective operating system and follow the tutorial: [macOS](https://code.visualstudio.com/), [Linux](https://code.visualstudio.com/), [Windows](https://code.visualstudio.com/). 
 
 2. Once VS Code is downloaded, open the application and navigate to the Extensions tab on the upper left side of the window. Click the Extensions icon on the sidebar (or press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>). Once in the Extensions tab, search for “Remote Development” and install the ssh extension published by Microsoft.
@@ -141,12 +150,14 @@ If you encounter any issues, please follow the debugging steps below.
    - Enter the SSH connection string: <kbd>ssh <user>@<IP Address></kbd>, where <kbd>IP</kbd> is the IP address of the raspberry pi you get via email notification or the local internet. <kbd>user</kbd> is the name previously configured when adding your email address
    - Enter the default Password when prompted.
    - After connecting, VS Code will prompt you to open a folder from your Pi. You can now edit files, run terminals, and develop just like local, but on your Raspberry Pi! 
+</details>
 
 ## 🐞 Debugging
 
 If you haven't received an IP address email within **10 minutes** of powering on your Raspberry Pi, follow these troubleshooting steps:
 
-### 1. Check for Access Point Broadcast
+<details>
+<summary>1. Check for Access Point Broadcast</summary>
 - Your RPi should create an access point if it couldn't connect to known networks or send the IP email
 - Look for the access point SSID you configured during setup in your available networks
 - If you can connect to this access point, SSH into the RPi:
@@ -156,8 +167,10 @@ If you haven't received an IP address email within **10 minutes** of powering on
 - If no access point is visible:
   - Connect a monitor and keyboard directly to your Raspberry Pi
   - Continue with the following diagnostic steps
+</details>
 
-### 2. Verify Network Connection
+<details>
+<summary>2. Verify Network Connection</summary>
 Check your network interfaces with:
 ```
 ifconfig
@@ -169,8 +182,10 @@ Look for:
 Note: `#` indicates the interface number (typically `wlan0` for the primary Wi-Fi interface)
 
 A successful connection shows an IP address next to `wlan0`. If missing, your network configuration needs attention.
+</details>
 
-### 3. Inspect Environment Variables
+<details>
+<summary>3. Inspect Environment Variables</summary>
 Environment variables control network, email, and SMTP server configuration:
 ```
 cat /etc/environment
@@ -185,8 +200,10 @@ Save changes with `Ctrl + O`, exit with `Ctrl + X`, then reboot:
 ```
 sudo reboot
 ```
+</details>
 
-### 4. Examine Network Configurations
+<details>
+<summary>4. Examine Network Configurations</summary>
 Network connection files are stored in:
 ```
 cd /etc/NetworkManager/system-connections
@@ -217,6 +234,7 @@ sudo reboot
 ```
 
 If problems persist, please [open an issue](https://github.com/neurobionics/robot-ci/issues). Note that networking issues can be complex and specific to your environment, but we'll do our best to assist.
+</details>
 
 ## 🌐 Network Behavior
 
