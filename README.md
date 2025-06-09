@@ -149,7 +149,7 @@ If you encounter any issues, please follow the debugging steps below.
 3. Connect to Raspberry Pi via SSH in VS Code
    - Press <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> (Mac) or <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> (Windows) to open Command Palette.
    - Type and select <kbd>Remote-SSH: Connect to Host...</kbd>
-   - Enter the SSH connection string: <kbd>ssh <user>@<IP Address></kbd>, where <kbd>IP</kbd> is the IP address of the raspberry pi you get via email notification or the local internet. <kbd>user</kbd> is the name previously configured when adding your email address
+   - Enter the SSH connection string: <kbd>ssh &lt;user&gt;@&lt;IP Address&gt;</kbd>, where <kbd>IP</kbd> is the IP address of the raspberry pi you get via email notification or the local internet. <kbd>user</kbd> is the name previously configured when adding your email address to send notifications to: <kbd>[user]@[domain].com</kbd>
    - Enter the default Password when prompted.
    - After connecting, VS Code will prompt you to open a folder from your Pi. You can now edit files, run terminals, and develop just like local, but on your Raspberry Pi! 
 </details>
