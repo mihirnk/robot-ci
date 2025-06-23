@@ -8,6 +8,7 @@ source source.Pifile
 
 source ssh.Pifile
 
+# MOTD is now installed in users.Pifile
 source users.Pifile
 
 # Set the hostname
@@ -22,10 +23,6 @@ RUN bash -c "systemctl enable getty@tty1"
 
 # Update locale
 source locale.Pifile
-
-# Install custom MOTD
-INSTALL "./motd" "/etc/update-motd.d/20-robotci-welcome"
-RUN bash -c "chmod +x /etc/update-motd.d/20-robotci-welcome"
 
 RUN apt-get update
 
