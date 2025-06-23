@@ -31,4 +31,4 @@ $(tput sgr0)- IP Address.........: `hostname -I | /usr/bin/cut -d " " -f 1`
 
 $(tput sgr0)"
 
-echo " Welcome, ${USER}!"
+echo "Welcome, ${USER}!"
