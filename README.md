@@ -74,14 +74,14 @@ The next step is to create the secrets that securely handle sensitive informatio
 | `ENTNETWORK_PASSWORD` | Network password |
 | `ENTNETWORK_PRIORITY` | Choose connection priority (e.g. a number greater than five will be higher priority; higher is greater priority) |
 | `SMTP_SERVER` | SMTP server for email notifications, for Gmail use `smtp.gmail.com` |
-| `SMTP_USERNAME` | Username for the email account that will send notifications |
-| `SMTP_PASSWORD` | Password for the email account that will send notifications |
 | `WIFI_COUNTRY_CODE` | WiFi country code, defaults to US if not set |
 
 Optional secrets:
 
 | Secret | Purpose |
 |--------|---------|
+| `SMTP_USERNAME` | Username for the email account that will send notifications, defaults to neurobionics@gmail.com|
+| `SMTP_PASSWORD` | Password for the email account that will send notifications, defaults to neurobionics |
 | `TIMEZONE` | Timezone for the device, defaults to America/New_York if not set |
 | `KEYBOARD_LAYOUT` | Keyboard layout, defaults to us if not set |
 | `KEYBOARD_MODEL` | Keyboard model, defaults to pc105 if not set |
