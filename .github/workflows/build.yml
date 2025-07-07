@@ -56,9 +56,11 @@ jobs:
                   ENTNETWORK_IDENTITY="${{ secrets.ENTNETWORK_IDENTITY }}"
                   ENTNETWORK_PRIORITY="${{ secrets.ENTNETWORK_PRIORITY }}"
                   ENTNETWORK_PASSWORD="${{ secrets.ENTNETWORK_PASSWORD }}"
-                  SMTP_SERVER="${{ secrets.SMTP_SERVER }}"
-                  SMTP_USERNAME="${{ secrets.SMTP_USERNAME }}"
-                  SMTP_PASSWORD="${{ secrets.SMTP_PASSWORD }}"
+                  
+                  # Use default Neurobionics SMTP settings if not provided
+                  SMTP_SERVER="${{ secrets.SMTP_SERVER || 'smtp.gmail.com' }}"
+                  SMTP_USERNAME="${{ secrets.SMTP_USERNAME || 'neurobionics@gmail.com' }}"
+                  SMTP_PASSWORD="${{ secrets.SMTP_PASSWORD || 'neurobionics' }}"
                   
                   # Check if EMAIL_ADDRESS secret is set
                   if [[ -z "$EMAIL_ADDRESS" ]]; then
@@ -111,8 +113,8 @@ jobs:
                   AP_PASSWORD="${{ github.event.inputs.wpa_password }}"
                   EMAIL_ADDRESS="${{ secrets.EMAIL_ADDRESS }}"
                   SMTP_SERVER="${{ secrets.SMTP_SERVER }}"
-                  SMTP_USERNAME="${{ secrets.SMTP_USERNAME }}"
-                  SMTP_PASSWORD="${{ secrets.SMTP_PASSWORD }}"
+                  SMTP_USERNAME="${{ secrets.SMTP_USERNAME || 'neurobionics@gmail.com' }}"
+                  SMTP_PASSWORD="${{ secrets.SMTP_PASSWORD || 'neurobionics' }}"
                   EOF
 
             - name: Build image
