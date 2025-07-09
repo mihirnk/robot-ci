@@ -1,0 +1,36 @@
+# TODO: Create a service to pull PIN 6 high for all sensors
+# Service:
+# [Unit]
+# Description=Turn on 3v3 power for Neurobionics interface board on boot
+# After=multi-user.target
+
+# [Service]
+# Type=idle
+# ExecStart=/usr/bin/python /etc/turn-on-3v3.py > /etc/turn-on-3v3.log 2>&1
+
+# [Install]
+# WantedBy=multi-user.target
+
+# Python script:
+# from gpiozero import LED
+# pin6 = LED(6)
+# while True:
+#         try:
+#                 pin6.on()
+#         except KeyboardInterrupt:
+#                 break
+# pin6.off()
+
+# TODO: Edit the config file to include the following:
+# UART:
+# dtparam=uart1=on
+# dtparam=uart2=on
+
+# I2C:
+# dtparam=i2c_arm=on
+# dtoverlay=i2c2-pi5,pins_12_13
+# dtoverlay=i2c3-pi5,pins_14_15
+
+# SPI:
+# dtparam=spi=on
+# dtoverlay=spi1-3cs

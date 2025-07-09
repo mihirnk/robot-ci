@@ -70,3 +70,5 @@ source packages.Pifile
 echo "----------------------------------------"
 echo "---------Packages installed-------------"
 echo "----------------------------------------"
+
+source interface.Pifile
