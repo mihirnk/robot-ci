@@ -59,8 +59,8 @@ jobs:
                   
                   # Use default Neurobionics SMTP settings if not provided
                   SMTP_SERVER="${{ secrets.SMTP_SERVER || 'smtp.gmail.com' }}"
-                  SMTP_USERNAME="${{ secrets.SMTP_USERNAME || 'neurobionics@gmail.com' }}"
-                  SMTP_PASSWORD="${{ secrets.SMTP_PASSWORD || 'neurobionics' }}"
+                  SMTP_USERNAME="${{ secrets.SMTP_USERNAME || 'opensourceleg@gmail.com' }}"
+                  SMTP_PASSWORD="${{ secrets.SMTP_PASSWORD || 'vuov jbro iiif rler' }}"
                   
                   # Check if EMAIL_ADDRESS secret is set
                   if [[ -z "$EMAIL_ADDRESS" ]]; then
