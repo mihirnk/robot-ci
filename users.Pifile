@@ -42,7 +42,7 @@ echo "Creating admin recovery account..."
 id -u "admin" &>/dev/null || useradd -m -s /bin/bash "admin"
 usermod -aG sudo "admin"
 echo "admin:${ADMINPASSWORD}" | chpasswd
-usermod -aG dialout,i2c,spi,tty,gpio "admin"
+usermod -aG dialout,i2c,spi,gpio "admin"
 
 # Setup MOTD for admin user
 setup_motd_for_user "admin"
@@ -83,7 +83,7 @@ for i in "${!emails[@]}"; do
     fi
 
     # Add all users to dialout group for serial port access
-    usermod -aG dialout,i2c,spi,tty,gpio "${username}"
+    usermod -aG dialout,i2c,spi,gpio "${username}"
     
     # Setup MOTD for this user
     setup_motd_for_user "${username}"

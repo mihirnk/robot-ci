@@ -70,3 +70,11 @@ source packages.Pifile
 echo "----------------------------------------"
 echo "---------Packages installed-------------"
 echo "----------------------------------------"
+
+if [ "${INTERFACE}" = "true" ]; then
+    source interface.Pifile
+fi
+
+echo "----------------------------------------"
+echo "---------NB Interface configured--------"
+echo "----------------------------------------"
