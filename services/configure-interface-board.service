@@ -1,0 +1,16 @@
+[Unit]
+Description=Configure Neurobionics Interface Board hardware on first boot
+After=local-fs.target
+Before=multi-user.target
+DefaultDependencies=false
+
+[Service]
+Type=oneshot
+ExecStart=/etc/configure-interface-board.sh
+StandardOutput=journal
+StandardError=journal
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target 

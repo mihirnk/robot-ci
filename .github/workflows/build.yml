@@ -12,7 +12,7 @@ on:
                     - raspbian
                     - ubuntu
             interface:
-                description: "Are you using the Neurobionics interface board? If so, please set this to true."
+                description: "Are you using the Neurobionics interface board? If so, please check this box."
                 required: true
                 default: false
                 type: boolean
@@ -21,11 +21,11 @@ on:
                 default: raspberrypi
                 required: true
             admin_password:
-                description: "Admin Password"
+                description: "Password for the admin user"
                 required: true
                 default: raspberrypi
             user_password:
-                description: "Default User Password"
+                description: "Default password for all the other users"
                 required: true
                 default: raspberrypi
             wifi_ssid:
@@ -92,7 +92,7 @@ jobs:
                       echo "Access Point password must be at least 8 characters long. Exiting."
                       exit 1
                   fi
-                  
+
             - uses: actions/checkout@v4
               with:
                   submodules: recursive

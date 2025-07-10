@@ -1,28 +1,12 @@
 INSTALL "./services/turn-on-3v3.service" "/lib/systemd/system/turn-on-3v3.service"
 INSTALL "./scripts/turn-on-3v3.py" "/etc/turn-on-3v3.py"
+INSTALL "./services/configure-interface-board.service" "/lib/systemd/system/configure-interface-board.service"
+INSTALL "./scripts/configure-interface-board.sh" "/etc/configure-interface-board.sh"
 
 RUN chmod +x /etc/turn-on-3v3.py
+RUN chmod +x /etc/configure-interface-board.sh
 RUN chmod 644 /lib/systemd/system/turn-on-3v3.service
+RUN chmod 644 /lib/systemd/system/configure-interface-board.service
 
 RUN systemctl enable turn-on-3v3.service
-
-# Configure hardware interfaces for Neurobionics Interface Board
-RUN cat << 'EOF' >> /boot/firmware/config.txt
-
-# Neurobionics Interface Board Configuration
-
-# UART Configuration
-dtparam=uart1=on
-dtparam=uart2=on
-dtoverlay=uart1-pi5
-dtoverlay=uart2-pi5
-
-# I2C Configuration
-dtparam=i2c_arm=on
-dtoverlay=i2c2-pi5,pins_12_13
-dtoverlay=i2c3-pi5,pins_14_15
-
-# SPI Configuration
-dtparam=spi=on
-dtoverlay=spi1-3cs
-EOF
+RUN systemctl enable configure-interface-board.service
