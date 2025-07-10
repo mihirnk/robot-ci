@@ -11,6 +11,11 @@ on:
                 options:
                     - raspbian
                     - ubuntu
+            interface:
+                description: "Are you using the Neurobionics interface board? If so, please set this to true."
+                required: true
+                default: false
+                type: boolean
             host_name:
                 description: "Hostname"
                 default: raspberrypi
@@ -72,7 +77,7 @@ jobs:
                       exit 1
                   fi
                   
-                  # Correctly validate password length
+                  # validate password lengths
                   if [[ ${#ADMINPASSWORD} -lt 8 ]]; then
                       echo "Admin password must be at least 8 characters long. Exiting."
                       exit 1
@@ -87,6 +92,7 @@ jobs:
                       echo "Access Point password must be at least 8 characters long. Exiting."
                       exit 1
                   fi
+                  
             - uses: actions/checkout@v4
               with:
                   submodules: recursive
@@ -94,6 +100,7 @@ jobs:
               run: |
                   cat <<EOF > $(dirname main.Pifile)/.env
                   DISTRIBUTION="${{ github.event.inputs.distribution }}"
+                  INTERFACE="${{ github.event.inputs.interface }}"
                   HOSTNAME="${{ github.event.inputs.host_name }}"
                   ADMINPASSWORD="${{ github.event.inputs.admin_password }}"
                   USERPASSWORD="${{ github.event.inputs.user_password }}"
