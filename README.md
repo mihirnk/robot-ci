@@ -73,9 +73,6 @@ The next step is to create the secrets that securely handle sensitive informatio
 | `ENTNETWORK_IDENTITY` | Network username |
 | `ENTNETWORK_PASSWORD` | Network password |
 | `ENTNETWORK_PRIORITY` | Choose connection priority (e.g. a number greater than five will be higher priority; higher is greater priority) |
-| `SMTP_SERVER` | SMTP server for email notifications, for Gmail use `smtp.gmail.com` |
-| `SMTP_USERNAME` | Username for the email account that will send notifications |
-| `SMTP_PASSWORD` | Password for the email account that will send notifications |
 | `WIFI_COUNTRY_CODE` | WiFi country code, defaults to US if not set |
 
 Optional secrets:
@@ -85,9 +82,12 @@ Optional secrets:
 | `TIMEZONE` | Timezone for the device, defaults to America/New_York if not set |
 | `KEYBOARD_LAYOUT` | Keyboard layout, defaults to us if not set |
 | `KEYBOARD_MODEL` | Keyboard model, defaults to pc105 if not set |
+| `SMTP_SERVER` | SMTP server for email notifications, defaults to `smtp.gmail.com` |
+| `SMTP_USERNAME` | Username for the email account that will send notifications, defaults to opensourceleg@gmail.com|
+| `SMTP_PASSWORD` | Password for the email account that will send notifications, default to our app password |
 
 #### Optional: Configuring SMTP
-To send email notifications, you can configure a Gmail account to work with SMTP (Simple Mail Transfer Protocol). This is easiest with a personal Gmail account, because certain organization or university accounts may have restrictions on creating an app password (a requirement for SMTP configuration).
+If you prefer to use your own gmal account to send email notification with the IP address of your robot instead of using the default opensourceleg@gmail.com account, you can configure your own Gmail account to work with SMTP (Simple Mail Transfer Protocol). This is easiest with a personal Gmail account, because certain organization or university accounts may have restrictions on creating an app password (a requirement for SMTP configuration).
 
 > *Note: For non-Gmail accounts, more guidelines on SMTP configuration can be found [here](https://support.google.com/a/answer/176600?hl=en).*
 
