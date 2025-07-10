@@ -20,8 +20,6 @@ cat << 'EOF' >> "$CONFIG_FILE"
 # Neurobionics Interface Board Configuration
 
 # UART Configuration
-dtparam=uart1=on
-dtparam=uart2=on
 dtoverlay=uart1-pi5
 dtoverlay=uart2-pi5
 
