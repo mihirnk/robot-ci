@@ -24,7 +24,7 @@ on:
                 description: "Password for the admin user"
                 required: true
                 default: raspberrypi
-            user_password:
+            other_users_password:
                 description: "Default password for all the other users"
                 required: true
                 default: raspberrypi
@@ -52,7 +52,7 @@ jobs:
               run: |
                   # Assign inputs to variables
                   ADMINPASSWORD="${{ github.event.inputs.admin_password }}"
-                  USERPASSWORD="${{ github.event.inputs.user_password }}"                  
+                  OTHERUSERSPASSWORD="${{ github.event.inputs.other_users_password }}"                  
                   WPA_PASSWORD="${{ github.event.inputs.wpa_password }}"
                   WIFI_SSID="${{ github.event.inputs.wifi_ssid }}"
                   WIFI_PASSWORD="${{ github.event.inputs.wifi_password }}"
@@ -83,7 +83,7 @@ jobs:
                       exit 1
                   fi
 
-                  if [[ ${#USERPASSWORD} -lt 8 ]]; then
+                  if [[ ${#OTHERUSERSPASSWORD} -lt 8 ]]; then
                       echo "User password must be at least 8 characters long. Exiting."
                       exit 1
                   fi
@@ -103,7 +103,7 @@ jobs:
                   INTERFACE="${{ github.event.inputs.interface }}"
                   HOSTNAME="${{ github.event.inputs.host_name }}"
                   ADMINPASSWORD="${{ github.event.inputs.admin_password }}"
-                  USERPASSWORD="${{ github.event.inputs.user_password }}"
+                  OTHERUSERSPASSWORD="${{ github.event.inputs.other_users_password }}"
                   ENTNETWORK_SSID="${{ secrets.ENTNETWORK_SSID }}"
                   ENTNETWORK_PRIORITY="${{ secrets.ENTNETWORK_PRIORITY }}"
                   ENTNETWORK_IDENTITY="${{ secrets.ENTNETWORK_IDENTITY }}"
