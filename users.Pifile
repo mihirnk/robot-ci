@@ -37,12 +37,32 @@ setup_motd_for_user() {
     echo "MOTD setup completed for user ${username}"
 }
 
+# Function to add user to groups (only if they exist)
+add_user_to_groups() {
+    local username="$1"
+    local groups_to_add=()
+
+    # Check each group and only add if it exists
+    for group in dialout i2c spi gpio; do
+        if getent group "$group" &>/dev/null; then
+            groups_to_add+=("$group")
+        fi
+    done
+
+    # Add user to all existing groups
+    if [ ${#groups_to_add[@]} -gt 0 ]; then
+        local groups_string=$(IFS=,; echo "${groups_to_add[*]}")
+        usermod -aG "$groups_string" "$username"
+        echo "Added $username to groups: $groups_string"
+    fi
+}
+
 # Create dedicated admin recovery account first
 echo "Creating admin recovery account..."
 id -u "admin" &>/dev/null || useradd -m -s /bin/bash "admin"
 usermod -aG sudo "admin"
 echo "admin:${ADMINPASSWORD}" | chpasswd
-usermod -aG dialout,i2c,spi,gpio "admin"
+add_user_to_groups "admin"
 
 # Setup MOTD for admin user
 setup_motd_for_user "admin"
@@ -82,9 +102,9 @@ for i in "${!emails[@]}"; do
         echo "${username}:${OTHERUSERSPASSWORD}" | chpasswd
     fi
 
-    # Add all users to dialout group for serial port access
-    usermod -aG dialout,i2c,spi,gpio "${username}"
-    
+    # Add all users to hardware access groups (only those that exist)
+    add_user_to_groups "${username}"
+
     # Setup MOTD for this user
     setup_motd_for_user "${username}"
     
