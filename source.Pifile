@@ -4,7 +4,7 @@ declare -A RASPIOS_IMAGES=(
     ["raspbian"]="https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-11-19/2024-11-19-raspios-bookworm-arm64-lite.img.xz"
     
     # Ubuntu
-    ["ubuntu"]="https://cdimage.ubuntu.com/releases/24.04/release/ubuntu-24.04.2-preinstalled-server-arm64+raspi.img.xz"
+    ["ubuntu"]="https://cdimage.ubuntu.com/releases/24.04/release/ubuntu-24.04.3-preinstalled-server-arm64+raspi.img.xz"
 )
 
 # Validate required environment variables
