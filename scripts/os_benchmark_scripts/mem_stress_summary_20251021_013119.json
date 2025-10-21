@@ -1,0 +1,32 @@
+{
+    "test": "memory",
+    "start_time": "2025-10-21T05:31:20Z",
+    "end_time": "2025-10-21T05:31:20Z",
+    "duration_s": 30,
+    "workers": 16,
+    "vm_bytes": "50%",
+    "vm_method": "write",
+    "sample_interval_s": 1,
+    "artifacts": {
+        "time_series_csv": "./mem_stress_20251021_013119.csv",
+        "stressng_log": "./mem_stress_stressng_20251021_013119.log",
+        "bandwidth_csv": "./mem_bandwidth_20251021_013119.csv",
+        "frag_csv": "./mem_frag_20251021_013119.csv"
+    },
+    "system": {
+        "uname": "Linux Mickey 6.6.87.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun  5 18:30:46 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux"
+    },
+    "stats": {
+        "vm_bogo_ops": 0,
+        "vm_bogo_ops_per_s": 0,
+        "real_time_s": 0,
+        "user_time_s": 0,
+        "sys_time_s": 0
+    },
+    "bandwidth": "./mem_bandwidth_20251021_013119.csv",
+    "fragmentation": {
+        "failures": 0,
+        "alloc_ops": 0,
+        "free_ops": 0
+    }
+}

@@ -1,0 +1,2 @@
+timestamp,used_mem_mb,free_mem_mb,swap_used_mb,majflt,psimem_some,psimem_full,kswapd_steal,kswapd_inodesteal
+1761024680,1617,5799,0,5446,avg10=0.00,avg10=0.00,0,
